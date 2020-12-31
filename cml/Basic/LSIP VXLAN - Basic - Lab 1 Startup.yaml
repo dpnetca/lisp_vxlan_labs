@@ -1,0 +1,2151 @@
+lab:
+  description: |-
+    LISP / VXLAN Basic Workbook - Lab 1
+    These topology files and configs are part of the LISP/VXLAN Basic Workbook available on Leanpub, copyright 2020 Tim McConnaughy.
+  notes: ''
+  timestamp: 1609449889.7248871
+  title: LSIP VXLAN - Basic - Lab 1 Startup
+  version: 0.0.4
+nodes:
+  - id: n0
+    label: Site1-Edge2
+    node_definition: csr1000v
+    x: -1350
+    y: 200
+    configuration: |-
+      service timestamps debug datetime msec
+      service timestamps log datetime msec
+      service call-home
+      platform qfp utilization monitor load 80
+      no platform punt-keepalive disable-kernel-core
+      platform console serial
+      !
+      hostname Site1-Edge2
+      !
+      boot-start-marker
+      boot-end-marker
+      !
+      !
+      !
+      no aaa new-model
+      !
+      login on-success log
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      subscriber templating
+      !
+      !
+      !
+      !
+      !
+      multilink bundle-name authenticated
+      !
+      !
+      !
+      diagnostic bootup level minimal
+      !
+      spanning-tree extend system-id
+      !
+      !
+      !
+      !
+      redundancy
+      !
+      interface Loopback0
+       no shutdown
+       description RLOC FOR LISP/VXLAN
+       ip address 12.12.12.12 255.255.255.255
+      !
+      interface GigabitEthernet1
+       no shutdown
+       description SITE1-1010-USERS
+       mac-address 1010.1010.1010
+       ip address 10.10.1.1 255.255.255.0
+       no ip redirects
+       ip local-proxy-arp
+       ip route-cache same-interface
+       negotiation auto
+       no mop enabled
+       no mop sysid
+      !
+      interface GigabitEthernet2
+       no shutdown
+       description LINK TO UNDERLAY
+       ip address 192.168.100.14 255.255.255.252
+       negotiation auto
+       no mop enabled
+       no mop sysid
+      !
+      interface GigabitEthernet3
+       no shutdown
+       description SITE1-1020-HR
+       mac-address 2020.2020.2020
+       ip address 10.20.1.1 255.255.255.0
+       no ip redirects
+       ip local-proxy-arp
+       ip route-cache same-interface
+       negotiation auto
+       no mop enabled
+       no mop sysid
+      !
+      interface GigabitEthernet4
+       no shutdown
+       description SITE1-1099-INFRA
+       mac-address 9090.9090.9090
+       ip address 10.99.1.1 255.255.255.0
+       no ip redirects
+       ip local-proxy-arp
+       ip route-cache same-interface
+       negotiation auto
+       no mop enabled
+       no mop sysid
+      !
+      !
+      ip forward-protocol nd
+      ip http server
+      ip http authentication local
+      ip http secure-server
+      !
+      !
+      !
+      !
+      !
+      !
+      control-plane
+      !
+      !
+      !
+      !
+      !
+      !
+      line con 0
+       stopbits 1
+      line vty 0 4
+       login
+      !
+      !
+      !
+      !
+      !
+      !
+      end
+    image_definition: csr1000v-170301a
+    tags: []
+    interfaces:
+      - id: i0
+        label: Loopback0
+        type: loopback
+      - id: i1
+        slot: 0
+        label: GigabitEthernet1
+        type: physical
+      - id: i2
+        slot: 1
+        label: GigabitEthernet2
+        type: physical
+      - id: i3
+        slot: 2
+        label: GigabitEthernet3
+        type: physical
+      - id: i4
+        slot: 3
+        label: GigabitEthernet4
+        type: physical
+  - id: n1
+    label: Site1-Edge1
+    node_definition: csr1000v
+    x: -1150
+    y: 200
+    configuration: |-
+      service timestamps debug datetime msec
+      service timestamps log datetime msec
+      service call-home
+      platform qfp utilization monitor load 80
+      no platform punt-keepalive disable-kernel-core
+      platform console serial
+      !
+      hostname Site1-Edge1
+      !
+      boot-start-marker
+      boot-end-marker
+      !
+      !
+      !
+      no aaa new-model
+      !
+      !
+      login on-success log
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      subscriber templating
+      !
+      !
+      !
+      !
+      !
+      multilink bundle-name authenticated
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      diagnostic bootup level minimal
+      !
+      spanning-tree extend system-id
+      !
+      !
+      !
+      !
+      redundancy
+      !
+      !
+      !
+      !
+      interface Loopback0
+       no shutdown
+       description RLOC FOR LISP/VXLAN
+       ip address 11.11.11.11 255.255.255.255
+      !
+      interface GigabitEthernet1
+       no shutdown
+       description SITE1-1010-USERS
+       mac-address 1010.1010.1010
+       ip address 10.10.1.1 255.255.255.0
+       no ip redirects
+       ip local-proxy-arp
+       ip route-cache same-interface
+       negotiation auto
+       no mop enabled
+       no mop sysid
+      !
+      interface GigabitEthernet2
+       no shutdown
+       description LINK TO UNDERLAY
+       ip address 192.168.100.5 255.255.255.252
+       no ip redirects
+       ip local-proxy-arp
+       ip route-cache same-interface
+       negotiation auto
+       no mop enabled
+       no mop sysid
+      !
+      interface GigabitEthernet3
+       no shutdown
+       description SITE1-1020-HR
+       mac-address 2020.2020.2020
+       ip address 10.20.1.1 255.255.255.0
+       no ip redirects
+       ip local-proxy-arp
+       ip route-cache same-interface
+       negotiation auto
+       no mop enabled
+       no mop sysid
+      !
+      interface GigabitEthernet4
+       no shutdown
+       description SITE1-1099-INFRA
+       mac-address 9090.9090.9090
+       ip address 10.99.1.1 255.255.255.0
+       no ip redirects
+       ip local-proxy-arp
+       ip route-cache same-interface
+       negotiation auto
+       no mop enabled
+       no mop sysid
+      !
+      ip forward-protocol nd
+      ip http server
+      ip http authentication local
+      ip http secure-server
+      !
+      !
+      !
+      !
+      !
+      !
+      control-plane
+      !
+      !
+      !
+      !
+      !
+      !
+      line con 0
+       stopbits 1
+      line vty 0 4
+       login
+      !
+      !
+      !
+      !
+      !
+      !
+      end
+    image_definition: csr1000v-170301a
+    tags: []
+    interfaces:
+      - id: i0
+        label: Loopback0
+        type: loopback
+      - id: i1
+        slot: 0
+        label: GigabitEthernet1
+        type: physical
+      - id: i2
+        slot: 1
+        label: GigabitEthernet2
+        type: physical
+      - id: i3
+        slot: 2
+        label: GigabitEthernet3
+        type: physical
+      - id: i4
+        slot: 3
+        label: GigabitEthernet4
+        type: physical
+  - id: n4
+    label: Site2-Edge-1
+    node_definition: csr1000v
+    x: -750
+    y: 200
+    configuration: |-
+      service timestamps debug datetime msec
+      service timestamps log datetime msec
+      service call-home
+      platform qfp utilization monitor load 80
+      no platform punt-keepalive disable-kernel-core
+      platform console serial
+      !
+      hostname Site2-Edge1
+      !
+      boot-start-marker
+      boot-end-marker
+      !
+      !
+      !
+      no aaa new-model
+      !
+      !
+      login on-success log
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      subscriber templating
+      !
+      !
+      !
+      !
+      !
+      multilink bundle-name authenticated
+      !
+      !
+      diagnostic bootup level minimal
+      !
+      spanning-tree extend system-id
+      !
+      !
+      !
+      !
+      redundancy
+      !
+      !
+      interface Loopback0
+       no shutdown
+       description RLOC FOR LISP/VXLAN
+       ip address 21.21.21.21 255.255.255.255
+      !
+      interface GigabitEthernet1
+       no shutdown
+       description SITE2-1030-USERS2
+       mac-address 3030.3030.3030
+       ip address 10.30.1.1 255.255.255.0
+       no ip redirects
+       ip local-proxy-arp
+       ip route-cache same-interface
+       negotiation auto
+       no mop enabled
+       no mop sysid
+      !
+      interface GigabitEthernet2
+       no shutdown
+       description LINK TO SITE2-UNDERLAY
+       ip address 192.168.200.5 255.255.255.252
+       negotiation auto
+       no mop enabled
+       no mop sysid
+      !
+      interface GigabitEthernet3
+       no shutdown
+       description SITE2-1040-SEC
+       mac-address 4040.4040.4040
+       ip address 10.40.1.1 255.255.255.0
+       no ip redirects
+       ip local-proxy-arp
+       ip route-cache same-interface
+       negotiation auto
+       no mop enabled
+       no mop sysid
+      !
+      interface GigabitEthernet4
+       no shutdown
+       description SITE2-1099-INFRA
+       mac-address 9090.9090.9090
+       ip address 10.99.2.1 255.255.255.0
+       no ip redirects
+       ip local-proxy-arp
+       ip route-cache same-interface
+       negotiation auto
+       no mop enabled
+       no mop sysid
+      !
+      !
+      ip forward-protocol nd
+      ip http server
+      ip http authentication local
+      ip http secure-server
+      !
+      !
+      !
+      !
+      !
+      !
+      control-plane
+      !
+      !
+      !
+      !
+      !
+      !
+      line con 0
+       stopbits 1
+      line vty 0 4
+       login
+      !
+      !
+      !
+      !
+      !
+      !
+      end
+    image_definition: csr1000v-170301a
+    tags: []
+    interfaces:
+      - id: i0
+        label: Loopback0
+        type: loopback
+      - id: i1
+        slot: 0
+        label: GigabitEthernet1
+        type: physical
+      - id: i2
+        slot: 1
+        label: GigabitEthernet2
+        type: physical
+      - id: i3
+        slot: 2
+        label: GigabitEthernet3
+        type: physical
+      - id: i4
+        slot: 3
+        label: GigabitEthernet4
+        type: physical
+  - id: n5
+    label: Site2-Edge2
+    node_definition: csr1000v
+    x: -550
+    y: 200
+    configuration: |-
+      service timestamps debug datetime msec
+      service timestamps log datetime msec
+      service call-home
+      platform qfp utilization monitor load 80
+      no platform punt-keepalive disable-kernel-core
+      platform console serial
+      !
+      hostname Site2-Edge2
+      !
+      boot-start-marker
+      boot-end-marker
+      !
+      !
+      !
+      no aaa new-model
+
+      !
+      login on-success log
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      subscriber templating
+      !
+      !
+      !
+      !
+      !
+      multilink bundle-name authenticated
+      !
+      !
+      diagnostic bootup level minimal
+      !
+      spanning-tree extend system-id
+      !
+      !
+      !
+      !
+      redundancy
+      !
+      interface Loopback0
+       no shutdown
+       description RLOC FOR LISP/VXLAN
+       ip address 22.22.22.22 255.255.255.255
+      !
+      interface GigabitEthernet1
+       no shutdown
+       description SITE2-1030-USERS2
+       mac-address 3030.3030.3030
+       ip address 10.30.1.1 255.255.255.0
+       no ip redirects
+       ip local-proxy-arp
+       ip route-cache same-interface
+       negotiation auto
+       no mop enabled
+       no mop sysid
+      !
+      interface GigabitEthernet2
+       no shutdown
+       description LINK TO SITE2-UNDERLAY
+       ip address 192.168.200.14 255.255.255.252
+       negotiation auto
+       no mop enabled
+       no mop sysid
+      !
+      interface GigabitEthernet3
+       no shutdown
+       description SITE2-1040-SEC
+       mac-address 4040.4040.4040
+       ip address 10.40.1.1 255.255.255.0
+       no ip redirects
+       ip local-proxy-arp
+       ip route-cache same-interface
+       negotiation auto
+       no mop enabled
+       no mop sysid
+      !
+      interface GigabitEthernet4
+       no shutdown
+       description SITE2-1099-INFRA
+       mac-address 9090.9090.9090
+       ip address 10.99.2.1 255.255.255.0
+       no ip redirects
+       ip local-proxy-arp
+       ip route-cache same-interface
+       negotiation auto
+       no mop enabled
+       no mop sysid
+      !
+      !
+      ip forward-protocol nd
+      ip http server
+      ip http authentication local
+      ip http secure-server
+      !
+      !
+      !
+      !
+      !
+      !
+      control-plane
+      !
+      !
+      !
+      !
+      !
+      !
+      line con 0
+       stopbits 1
+      line vty 0 4
+       login
+      !
+      !
+      !
+      !
+      !
+      !
+      end
+    image_definition: csr1000v-170301a
+    tags: []
+    interfaces:
+      - id: i0
+        label: Loopback0
+        type: loopback
+      - id: i1
+        slot: 0
+        label: GigabitEthernet1
+        type: physical
+      - id: i2
+        slot: 1
+        label: GigabitEthernet2
+        type: physical
+      - id: i3
+        slot: 2
+        label: GigabitEthernet3
+        type: physical
+      - id: i4
+        slot: 3
+        label: GigabitEthernet4
+        type: physical
+  - id: n6
+    label: Site1-Border-CP
+    node_definition: csr1000v
+    x: -1250
+    y: -100
+    configuration: |-
+      service timestamps debug datetime msec
+      service timestamps log datetime msec
+      service call-home
+      platform qfp utilization monitor load 80
+      no platform punt-keepalive disable-kernel-core
+      platform console serial
+      !
+      hostname Site1-Border-CP
+      !
+      boot-start-marker
+      boot-end-marker
+      !
+      !
+      !
+      no aaa new-model
+
+      !
+      login on-success log
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      subscriber templating
+      !
+      !
+      !
+      !
+      !
+      multilink bundle-name authenticated
+      !
+      !
+      !
+      diagnostic bootup level minimal
+      !
+      spanning-tree extend system-id
+      !
+      !
+      !
+      !
+      redundancy
+      !
+      !
+      interface Loopback0
+       no shutdown
+       description RLOC FOR LISP/VXLAN/MS/MR
+       ip address 10.10.10.10 255.255.255.255
+      !
+      interface GigabitEthernet1
+       no shutdown
+       description LINK TO UNDERLAY
+       ip address 192.168.100.10 255.255.255.252
+       negotiation auto
+       no mop enabled
+       no mop sysid
+      !
+      interface GigabitEthernet2
+       no shutdown
+       description LINK TO SITE1-FUSION
+       ip address 100.64.99.2 255.255.255.252
+       negotiation auto
+       no mop enabled
+       no mop sysid
+      !
+      interface GigabitEthernet3
+       no shutdown
+       no ip address
+       shutdown
+       negotiation auto
+       no mop enabled
+       no mop sysid
+      !
+      interface GigabitEthernet4
+       no shutdown
+       no ip address
+       shutdown
+       negotiation auto
+       no mop enabled
+       no mop sysid
+      !
+      !
+      ip forward-protocol nd
+      ip http server
+      ip http authentication local
+      ip http secure-server
+      !
+      !
+      !
+      !
+      !
+      !
+      control-plane
+      !
+      !
+      !
+      !
+      !
+      !
+      line con 0
+       stopbits 1
+      line vty 0 4
+       login
+      !
+      !
+      !
+      !
+      !
+      !
+      end
+    image_definition: csr1000v-170301a
+    tags: []
+    interfaces:
+      - id: i0
+        label: Loopback0
+        type: loopback
+      - id: i1
+        slot: 0
+        label: GigabitEthernet1
+        type: physical
+      - id: i2
+        slot: 1
+        label: GigabitEthernet2
+        type: physical
+      - id: i3
+        slot: 2
+        label: GigabitEthernet3
+        type: physical
+      - id: i4
+        slot: 3
+        label: GigabitEthernet4
+        type: physical
+  - id: n10
+    label: Site2-Border-CP
+    node_definition: csr1000v
+    x: -700
+    y: -100
+    configuration: |-
+      service timestamps debug datetime msec
+      service timestamps log datetime msec
+      service call-home
+      platform qfp utilization monitor load 80
+      no platform punt-keepalive disable-kernel-core
+      platform console serial
+      !
+      hostname Site2-Border-CP
+      !
+      boot-start-marker
+      boot-end-marker
+      !
+      !
+      !
+      no aaa new-model
+      !
+      !
+      login on-success log
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      subscriber templating
+      !
+      !
+      !
+      !
+      !
+      multilink bundle-name authenticated
+      !
+      !
+      !
+      !
+      diagnostic bootup level minimal
+      !
+      spanning-tree extend system-id
+      !
+      !
+      !
+      !
+      redundancy
+      !
+      interface Loopback0
+       no shutdown
+       description RLOC FOR LISP/VXLAN/MS/MR
+       ip address 20.20.20.20 255.255.255.255
+      !
+      interface GigabitEthernet1
+       no shutdown
+       description LINK TO SITE2-UNDERLAY
+       ip address 192.168.200.10 255.255.255.252
+       negotiation auto
+       no mop enabled
+       no mop sysid
+      !
+      interface GigabitEthernet2
+       no shutdown
+       description LINK TO SITE2-FUSION
+       ip address 100.64.99.6 255.255.255.252
+       negotiation auto
+       no mop enabled
+       no mop sysid
+      !
+      interface GigabitEthernet3
+       no shutdown
+       no ip address
+       shutdown
+       negotiation auto
+       no mop enabled
+       no mop sysid
+      !
+      interface GigabitEthernet4
+       no shutdown
+       no ip address
+       shutdown
+       negotiation auto
+       no mop enabled
+       no mop sysid
+      !
+      !
+      ip forward-protocol nd
+      ip http server
+      ip http authentication local
+      ip http secure-server
+      !
+      !
+      !
+      !
+      !
+      !
+      control-plane
+      !
+      !
+      !
+      !
+      !
+      !
+      line con 0
+       stopbits 1
+      line vty 0 4
+       login
+      !
+      !
+      !
+      !
+      !
+      !
+      end
+    image_definition: csr1000v-170301a
+    tags: []
+    interfaces:
+      - id: i0
+        label: Loopback0
+        type: loopback
+      - id: i1
+        slot: 0
+        label: GigabitEthernet1
+        type: physical
+      - id: i2
+        slot: 1
+        label: GigabitEthernet2
+        type: physical
+      - id: i3
+        slot: 2
+        label: GigabitEthernet3
+        type: physical
+      - id: i4
+        slot: 3
+        label: GigabitEthernet4
+        type: physical
+  - id: n11
+    label: SERVER
+    node_definition: server
+    x: -950
+    y: -400
+    configuration: |-
+      # this is a shell script which will be sourced at boot
+      # if you change the hostname then you need to add a
+      # /etc/hosts entry as well to make X11 happy
+      hostname SERVER
+      # like this:
+      echo "127.0.0.1   SERVER" >>/etc/hosts
+      ip addr add 100.64.100.100 dev eth0
+      ip route add default via 100.64.100.1 dev eth0
+    image_definition: server-tcl-8-2-1
+    tags: []
+    interfaces:
+      - id: i0
+        slot: 0
+        label: eth0
+        type: physical
+  - id: n13
+    label: Site1-User1
+    node_definition: desktop
+    x: -1150
+    y: 300
+    configuration: |-
+      # this is a shell script which will be sourced at boot
+      # if you change the hostname then you need to add a
+      # /etc/hosts entry as well to make X11 happy
+      hostname Site1-User1
+      # like this:
+      echo "127.0.0.1   Site1-User1" >>/etc/hosts
+      ip addr add 10.10.1.20/24 dev eth0
+      ip route add default via 10.10.1.1 dev eth0
+    image_definition: desktop-3-12-xfce
+    tags: []
+    interfaces:
+      - id: i0
+        slot: 0
+        label: eth0
+        type: physical
+  - id: n12
+    label: Site1-User2
+    node_definition: desktop
+    x: -1350
+    y: 300
+    configuration: |-
+      # this is a shell script which will be sourced at boot
+      # if you change the hostname then you need to add a
+      # /etc/hosts entry as well to make X11 happy
+      hostname Site1-User2
+      # like this:
+      echo "127.0.0.1   Site1-User2" >>/etc/hosts
+      ip addr add 10.10.1.10/24 dev eth0
+      ip route add default via 10.10.1.1 dev eth0
+    image_definition: desktop-3-12-xfce
+    tags: []
+    interfaces:
+      - id: i0
+        slot: 0
+        label: eth0
+        type: physical
+  - id: n14
+    label: Site2-User1
+    node_definition: desktop
+    x: -750
+    y: 300
+    configuration: |-
+      # this is a shell script which will be sourced at boot
+      # if you change the hostname then you need to add a
+      # /etc/hosts entry as well to make X11 happy
+      hostname Site1-User1
+      # like this:
+      echo "127.0.0.1   Site2-User2" >>/etc/hosts
+      ip addr add 10.30.1.10/24 dev eth0
+      ip route add default via 10.30.1.1 dev eth0
+    image_definition: desktop-3-12-xfce
+    tags: []
+    interfaces:
+      - id: i0
+        slot: 0
+        label: eth0
+        type: physical
+  - id: n15
+    label: Site2-User2
+    node_definition: desktop
+    x: -550
+    y: 300
+    configuration: |-
+      # this is a shell script which will be sourced at boot
+      # if you change the hostname then you need to add a
+      # /etc/hosts entry as well to make X11 happy
+      hostname Site2-User2
+      # like this:
+      echo "127.0.0.1   Site2-User2" >>/etc/hosts
+      ip addr add 10.30.1.20/24 dev eth0
+      ip route add default via 10.30.1.1 dev eth0
+    image_definition: desktop-3-12-xfce
+    tags: []
+    interfaces:
+      - id: i0
+        slot: 0
+        label: eth0
+        type: physical
+  - id: n2
+    label: Site1-Underlay
+    node_definition: iosv
+    x: -1250
+    y: 50
+    configuration: |-
+      service timestamps debug datetime msec
+      service timestamps log datetime msec
+      service call-home
+      platform qfp utilization monitor load 80
+      no platform punt-keepalive disable-kernel-core
+      platform console serial
+      !
+      hostname Site1-Underlay
+      !
+      boot-start-marker
+      boot-end-marker
+      !
+      !
+      !
+      no aaa new-model
+      !
+      login on-success log
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      subscriber templating
+      !
+      !
+      !
+      !
+      !
+      multilink bundle-name authenticated
+      !
+      !
+      !
+      !
+      !
+      diagnostic bootup level minimal
+      !
+      spanning-tree extend system-id
+      !
+      !
+      !
+      !
+      redundancy
+      !
+      !
+      !
+      !
+      interface GigabitEthernet0/1
+       no shutdown
+       description LINK TO SITE1-EDGE1
+       ip address 192.168.100.6 255.255.255.252
+       negotiation auto
+       no mop enabled
+       no mop sysid
+      !
+      interface GigabitEthernet0/2
+       no shutdown
+       description LINK TO SITE1-BORDER-CP
+       ip address 192.168.100.9 255.255.255.252
+       negotiation auto
+       no mop enabled
+       no mop sysid
+      !
+      interface GigabitEthernet0/3
+       no shutdown
+       description LINK TO SITE1-EDGE2
+       ip address 192.168.100.13 255.255.255.252
+       negotiation auto
+       no mop enabled
+       no mop sysid
+      !
+      interface GigabitEthernet0/4
+       no shutdown
+       no ip address
+       shutdown
+       negotiation auto
+       no mop enabled
+       no mop sysid
+      !
+      !
+      ip forward-protocol nd
+      ip http server
+      ip http authentication local
+      ip http secure-server
+      !
+      !
+      !
+      !
+      !
+      !
+      control-plane
+      !
+      !
+      !
+      !
+      !
+      !
+      line con 0
+       stopbits 1
+      line vty 0 4
+       login
+      !
+      !
+      !
+      !
+      !
+      !
+      end
+    image_definition: iosv-159-3
+    tags: []
+    interfaces:
+      - id: i0
+        label: Loopback0
+        type: loopback
+      - id: i1
+        slot: 0
+        label: GigabitEthernet0/0
+        type: physical
+      - id: i2
+        slot: 1
+        label: GigabitEthernet0/1
+        type: physical
+      - id: i3
+        slot: 2
+        label: GigabitEthernet0/2
+        type: physical
+      - id: i4
+        slot: 3
+        label: GigabitEthernet0/3
+        type: physical
+  - id: n3
+    label: Site1-Fusion
+    node_definition: iosv
+    x: -1150
+    y: -250
+    configuration: |-
+      !
+      ! Last configuration change at 02:49:39 UTC Fri May 29 2020
+      !
+      version 16.10
+      service timestamps debug datetime msec
+      service timestamps log datetime msec
+      service call-home
+      platform qfp utilization monitor load 80
+      no platform punt-keepalive disable-kernel-core
+      platform console serial
+      !
+      hostname Site1-Fusion
+      !
+      boot-start-marker
+      boot-end-marker
+      !
+      !
+      !
+      no aaa new-model
+      call-home
+       ! If contact email address in call-home is configured as sch-smart-licensing@cisco.com
+       ! the email address configured in Cisco Smart License Portal will be used as contact email address to send SCH notifications.
+       contact-email-addr sch-smart-licensing@cisco.com
+       profile "CiscoTAC-1"
+        active
+        destination transport-method http
+        no destination transport-method email
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      login on-success log
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      subscriber templating
+      !
+      !
+      !
+      !
+      !
+      multilink bundle-name authenticated
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      crypto pki trustpoint TP-self-signed-2926020470
+       enrollment selfsigned
+       subject-name cn=IOS-Self-Signed-Certificate-2926020470
+       revocation-check none
+       rsakeypair TP-self-signed-2926020470
+      !
+      crypto pki trustpoint SLA-TrustPoint
+       enrollment pkcs12
+       revocation-check crl
+      !
+      !
+      crypto pki certificate chain TP-self-signed-2926020470
+       certificate self-signed 01
+        30820330 30820218 A0030201 02020101 300D0609 2A864886 F70D0101 05050030
+        31312F30 2D060355 04031326 494F532D 53656C66 2D536967 6E65642D 43657274
+        69666963 6174652D 32393236 30323034 3730301E 170D3230 30353238 31323033
+        34365A17 0D333030 31303130 30303030 305A3031 312F302D 06035504 03132649
+        4F532D53 656C662D 5369676E 65642D43 65727469 66696361 74652D32 39323630
+        32303437 30308201 22300D06 092A8648 86F70D01 01010500 0382010F 00308201
+        0A028201 01009FDD 24F2F9AB 4F880A99 9E7B13FD F5D25F8D DA994B02 929D223A
+        9AB603DA 2C8544EF 3C0FA668 D5ED8B04 3CED8A53 CCC780B4 9985F639 80035D47
+        08CA1210 679757EB 86F9702C 802C17BD AEF57F3C 90BD9379 85BB5B76 9745712D
+        5098E930 4DBB0363 3EAD2C0B 839F65F1 3D5FE2F2 EBCA2A0A EEFFEFA6 A94047F2
+        906069B3 42E8BDB8 872A81F8 25C68C95 2A53147D D875D0ED BCBDCB29 08B495EB
+        5F5F3849 77B4AD2A C7D2F966 C7731823 B1E7DFE7 23BCD97A 410BFA03 0749BE44
+        B35AE23D F867BE9C 26545195 9E430246 E3B7EF39 7C603BC3 75ED33B7 1EECD362
+        3FAEA752 AF473891 CE9941AE 725C0C6F 4EEDD7F2 17BE5F05 F7DC9D98 DBA314BC
+        37B6CD9F 4CD90203 010001A3 53305130 0F060355 1D130101 FF040530 030101FF
+        301F0603 551D2304 18301680 14CD7F19 F8383794 6550BAF3 68D81697 02129B22
+        01301D06 03551D0E 04160414 CD7F19F8 38379465 50BAF368 D8169702 129B2201
+        300D0609 2A864886 F70D0101 05050003 82010100 90E4F335 2F3984F2 890C3835
+        CE051399 8D208856 E49E9A09 13B8C5C7 FCB30306 A82E6076 B1480532 C8A64FEF
+        7FD0ED59 0C7B5670 44808809 962EAC8B C1B1847F 8489AA25 BC26C183 4C20A77D
+        A7771007 1FDD4753 87F28091 BDE8E073 21D10049 0FBA162D 1F7957BA 819589F1
+        5D62303D 623FA28F AEFA8D67 A9C02AD1 AFCF28CD 6DBF00A6 41C5F885 8527C5FB
+        88979B71 0D6D06A6 4CC3456C ED0ABAE0 6F5F1839 655BDB0B A50450AC 247569F3
+        911C5CE7 DDD6225C AFA79B45 0467081D 5D8D1349 CD5A2465 3A7D201A AE1A5564
+        8264B67B 94AE39F6 43C4D00C E3BD42EE E21F6FFC 8045A8F9 34D65233 81732340
+        1DE91F82 1E50214F E1B09167 F7E774F8 0684C0CF
+        quit
+      crypto pki certificate chain SLA-TrustPoint
+       certificate ca 01
+        30820321 30820209 A0030201 02020101 300D0609 2A864886 F70D0101 0B050030
+        32310E30 0C060355 040A1305 43697363 6F312030 1E060355 04031317 43697363
+        6F204C69 63656E73 696E6720 526F6F74 20434130 1E170D31 33303533 30313934
+        3834375A 170D3338 30353330 31393438 34375A30 32310E30 0C060355 040A1305
+        43697363 6F312030 1E060355 04031317 43697363 6F204C69 63656E73 696E6720
+        526F6F74 20434130 82012230 0D06092A 864886F7 0D010101 05000382 010F0030
+        82010A02 82010100 A6BCBD96 131E05F7 145EA72C 2CD686E6 17222EA1 F1EFF64D
+        CBB4C798 212AA147 C655D8D7 9471380D 8711441E 1AAF071A 9CAE6388 8A38E520
+        1C394D78 462EF239 C659F715 B98C0A59 5BBB5CBD 0CFEBEA3 700A8BF7 D8F256EE
+        4AA4E80D DB6FD1C9 60B1FD18 FFC69C96 6FA68957 A2617DE7 104FDC5F EA2956AC
+        7390A3EB 2B5436AD C847A2C5 DAB553EB 69A9A535 58E9F3E3 C0BD23CF 58BD7188
+        68E69491 20F320E7 948E71D7 AE3BCC84 F10684C7 4BC8E00F 539BA42B 42C68BB7
+        C7479096 B4CB2D62 EA2F505D C7B062A4 6811D95B E8250FC4 5D5D5FB8 8F27D191
+        C55F0D76 61F9A4CD 3D992327 A8BB03BD 4E6D7069 7CBADF8B DF5F4368 95135E44
+        DFC7C6CF 04DD7FD1 02030100 01A34230 40300E06 03551D0F 0101FF04 04030201
+        06300F06 03551D13 0101FF04 05300301 01FF301D 0603551D 0E041604 1449DC85
+        4B3D31E5 1B3E6A17 606AF333 3D3B4C73 E8300D06 092A8648 86F70D01 010B0500
+        03820101 00507F24 D3932A66 86025D9F E838AE5C 6D4DF6B0 49631C78 240DA905
+        604EDCDE FF4FED2B 77FC460E CD636FDB DD44681E 3A5673AB 9093D3B1 6C9E3D8B
+        D98987BF E40CBD9E 1AECA0C2 2189BB5C 8FA85686 CD98B646 5575B146 8DFC66A8
+        467A3DF4 4D565700 6ADF0F0D CF835015 3C04FF7C 21E878AC 11BA9CD2 55A9232C
+        7CA7B7E6 C1AF74F6 152E99B7 B1FCF9BB E973DE7F 5BDDEB86 C71E3B49 1765308B
+        5FB0DA06 B92AFE7F 494E8A9E 07B85737 F3A58BE1 1A48A229 C37C1E69 39F08678
+        80DDCD16 D6BACECA EEBC7CF9 8428787B 35202CDC 60E4616A B623CDBD 230E3AFB
+        418616A9 4093E049 4D10AB75 27E86F73 932E35B5 8862FDAE 0275156F 719BB2F0
+        D697DF7F 28
+        quit
+      !
+      license udi pid CSR1000V sn 9BNLZCNRKYK
+      diagnostic bootup level minimal
+      !
+      spanning-tree extend system-id
+      !
+      !
+      !
+      !
+      redundancy
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      interface Loopback0
+       no shutdown
+       ip address 101.101.101.101 255.255.255.255
+      !
+      interface GigabitEthernet0/1
+       no shutdown
+       description TO NONFABRIC CORE
+       ip address 100.64.1.2 255.255.255.252
+       negotiation auto
+       no mop enabled
+       no mop sysid
+      !
+      interface GigabitEthernet0/2
+       no shutdown
+       description LINK TO SITE1 BORDER-CP
+       ip address 100.64.99.1 255.255.255.252
+       negotiation auto
+       no mop enabled
+       no mop sysid
+      !
+      interface GigabitEthernet0/3
+       no shutdown
+       no ip address
+       shutdown
+       negotiation auto
+       no mop enabled
+       no mop sysid
+      !
+      interface GigabitEthernet0/4
+       no shutdown
+       no ip address
+       shutdown
+       negotiation auto
+       no mop enabled
+       no mop sysid
+      !
+      router bgp 65100
+       bgp router-id 101.101.101.101
+       bgp log-neighbor-changes
+       network 101.101.101.101 mask 255.255.255.255
+       neighbor 100.64.1.1 remote-as 65100
+       neighbor 100.64.1.1 next-hop-self all
+      !
+      ip forward-protocol nd
+      ip http server
+      ip http authentication local
+      ip http secure-server
+      !
+      !
+      !
+      !
+      !
+      !
+      control-plane
+      !
+      !
+      !
+      !
+      !
+      !
+      line con 0
+       stopbits 1
+      line vty 0 4
+       login
+      !
+      !
+      !
+      !
+      !
+      !
+      end
+    image_definition: iosv-159-3
+    tags: []
+    interfaces:
+      - id: i0
+        label: Loopback0
+        type: loopback
+      - id: i1
+        slot: 0
+        label: GigabitEthernet0/0
+        type: physical
+      - id: i2
+        slot: 1
+        label: GigabitEthernet0/1
+        type: physical
+      - id: i3
+        slot: 2
+        label: GigabitEthernet0/2
+        type: physical
+      - id: i4
+        slot: 3
+        label: GigabitEthernet0/3
+        type: physical
+  - id: n7
+    label: Non-Fabric-Core
+    node_definition: iosv
+    x: -950
+    y: -300
+    configuration: |-
+      !
+      ! Last configuration change at 02:49:50 UTC Fri May 29 2020
+      !
+      version 16.10
+      service timestamps debug datetime msec
+      service timestamps log datetime msec
+      service call-home
+      platform qfp utilization monitor load 80
+      no platform punt-keepalive disable-kernel-core
+      platform console serial
+      !
+      hostname Non-Fabric-Core
+      !
+      boot-start-marker
+      boot-end-marker
+      !
+      !
+      !
+      no aaa new-model
+      call-home
+       ! If contact email address in call-home is configured as sch-smart-licensing@cisco.com
+       ! the email address configured in Cisco Smart License Portal will be used as contact email address to send SCH notifications.
+       contact-email-addr sch-smart-licensing@cisco.com
+       profile "CiscoTAC-1"
+        active
+        destination transport-method http
+        no destination transport-method email
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      login on-success log
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      subscriber templating
+      !
+      !
+      !
+      !
+      !
+      multilink bundle-name authenticated
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      crypto pki trustpoint TP-self-signed-4053390607
+       enrollment selfsigned
+       subject-name cn=IOS-Self-Signed-Certificate-4053390607
+       revocation-check none
+       rsakeypair TP-self-signed-4053390607
+      !
+      crypto pki trustpoint SLA-TrustPoint
+       enrollment pkcs12
+       revocation-check crl
+      !
+      !
+      crypto pki certificate chain TP-self-signed-4053390607
+       certificate self-signed 01
+        30820330 30820218 A0030201 02020101 300D0609 2A864886 F70D0101 05050030
+        31312F30 2D060355 04031326 494F532D 53656C66 2D536967 6E65642D 43657274
+        69666963 6174652D 34303533 33393036 3037301E 170D3230 30353238 31323034
+        33335A17 0D333030 31303130 30303030 305A3031 312F302D 06035504 03132649
+        4F532D53 656C662D 5369676E 65642D43 65727469 66696361 74652D34 30353333
+        39303630 37308201 22300D06 092A8648 86F70D01 01010500 0382010F 00308201
+        0A028201 0100AD2D 3A9FD185 F56753A6 08697A32 5452F896 DEA9C758 6A9B465E
+        4869712F 567926D2 A7BD2216 2431925D AC3DF5F3 D6CA9D54 6F7E013B 8D5D7E84
+        39F5B5FB F5C6FA52 B294822D 5F5B3C15 022F6707 382C51A4 9ED3F1F6 3423E2FC
+        5E4352EB F288F6DF 22EE1DD9 9A3E149C 35A041E4 19D609D2 D2DE3884 914A9EBE
+        B7A4F5BD 8C20F40D 8B93A2FE 185E52F6 6A7F75C6 D19563DB 2EB2EDC1 D29A54E5
+        F2D5C887 EE3F2060 D41A96BC F3867CC8 EC58AE9D C34FBCB4 55BFBEF7 F300BE69
+        A7D09356 F0B7DD03 CD0A9962 FCAC4CCC 73BB6479 E3833742 72100574 A0B896EE
+        B93A528E 38770AB3 C2B47172 DC043D7B 14BBB1A6 A92C2DDD 398A1C94 3E9EAC6A
+        70A06356 32F10203 010001A3 53305130 0F060355 1D130101 FF040530 030101FF
+        301F0603 551D2304 18301680 140A32A7 6B067938 C0DD4190 E13756C9 8A92EE36
+        7F301D06 03551D0E 04160414 0A32A76B 067938C0 DD4190E1 3756C98A 92EE367F
+        300D0609 2A864886 F70D0101 05050003 82010100 40DB42B4 77CCEC75 C38CABF5
+        9DD5DFA8 727F7B9E 8B5D6337 A8735D45 6A339719 7C82A29C 2996889E 6DE302AC
+        642D8088 A531DDDB D9925D23 2F5801DB 65CCF828 71917489 7CC17490 9231822C
+        C3BD7C35 6246CECF B0A7AA3B 28614BA6 9E7714D3 389B2E9B 55ECA212 D19EF877
+        BC6A10DF A1F0BF09 3CE64387 3DA3BC16 A3192964 064773A4 B56C7E7F 57602409
+        A1A7237E 79106C0A 53AAB665 E98DE1DB 3BB679BE F42AD675 FAA130E6 C9605A73
+        A3FBAD88 0CA35FDD 418F7C77 A8FE51D9 ECDA300C E8BCD95C 3EDF5316 742382FF
+        F7589037 6BD0E270 A9583136 26279B5B 0642742D EB73595B 65FF9C98 E8CA1E70
+        AA1FD735 70B19609 45AB81C4 80A54883 7F961DBD
+        quit
+      crypto pki certificate chain SLA-TrustPoint
+       certificate ca 01
+        30820321 30820209 A0030201 02020101 300D0609 2A864886 F70D0101 0B050030
+        32310E30 0C060355 040A1305 43697363 6F312030 1E060355 04031317 43697363
+        6F204C69 63656E73 696E6720 526F6F74 20434130 1E170D31 33303533 30313934
+        3834375A 170D3338 30353330 31393438 34375A30 32310E30 0C060355 040A1305
+        43697363 6F312030 1E060355 04031317 43697363 6F204C69 63656E73 696E6720
+        526F6F74 20434130 82012230 0D06092A 864886F7 0D010101 05000382 010F0030
+        82010A02 82010100 A6BCBD96 131E05F7 145EA72C 2CD686E6 17222EA1 F1EFF64D
+        CBB4C798 212AA147 C655D8D7 9471380D 8711441E 1AAF071A 9CAE6388 8A38E520
+        1C394D78 462EF239 C659F715 B98C0A59 5BBB5CBD 0CFEBEA3 700A8BF7 D8F256EE
+        4AA4E80D DB6FD1C9 60B1FD18 FFC69C96 6FA68957 A2617DE7 104FDC5F EA2956AC
+        7390A3EB 2B5436AD C847A2C5 DAB553EB 69A9A535 58E9F3E3 C0BD23CF 58BD7188
+        68E69491 20F320E7 948E71D7 AE3BCC84 F10684C7 4BC8E00F 539BA42B 42C68BB7
+        C7479096 B4CB2D62 EA2F505D C7B062A4 6811D95B E8250FC4 5D5D5FB8 8F27D191
+        C55F0D76 61F9A4CD 3D992327 A8BB03BD 4E6D7069 7CBADF8B DF5F4368 95135E44
+        DFC7C6CF 04DD7FD1 02030100 01A34230 40300E06 03551D0F 0101FF04 04030201
+        06300F06 03551D13 0101FF04 05300301 01FF301D 0603551D 0E041604 1449DC85
+        4B3D31E5 1B3E6A17 606AF333 3D3B4C73 E8300D06 092A8648 86F70D01 010B0500
+        03820101 00507F24 D3932A66 86025D9F E838AE5C 6D4DF6B0 49631C78 240DA905
+        604EDCDE FF4FED2B 77FC460E CD636FDB DD44681E 3A5673AB 9093D3B1 6C9E3D8B
+        D98987BF E40CBD9E 1AECA0C2 2189BB5C 8FA85686 CD98B646 5575B146 8DFC66A8
+        467A3DF4 4D565700 6ADF0F0D CF835015 3C04FF7C 21E878AC 11BA9CD2 55A9232C
+        7CA7B7E6 C1AF74F6 152E99B7 B1FCF9BB E973DE7F 5BDDEB86 C71E3B49 1765308B
+        5FB0DA06 B92AFE7F 494E8A9E 07B85737 F3A58BE1 1A48A229 C37C1E69 39F08678
+        80DDCD16 D6BACECA EEBC7CF9 8428787B 35202CDC 60E4616A B623CDBD 230E3AFB
+        418616A9 4093E049 4D10AB75 27E86F73 932E35B5 8862FDAE 0275156F 719BB2F0
+        D697DF7F 28
+        quit
+      !
+      license udi pid CSR1000V sn 9ZW13OE8TNW
+      diagnostic bootup level minimal
+      !
+      spanning-tree extend system-id
+      !
+      !
+      !
+      !
+      redundancy
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      interface Loopback0
+       no shutdown
+       ip address 100.100.100.100 255.255.255.255
+      !
+      interface GigabitEthernet0/1
+       no shutdown
+       description TO SITE1 FUSION
+       ip address 100.64.1.1 255.255.255.252
+       negotiation auto
+       no mop enabled
+       no mop sysid
+      !
+      interface GigabitEthernet0/2
+       no shutdown
+       description TO SITE2 FUSION
+       ip address 100.64.2.1 255.255.255.252
+       negotiation auto
+       no mop enabled
+       no mop sysid
+      !
+      interface GigabitEthernet0/3
+       no shutdown
+       description SHARED SERVICES SERVER
+       ip address 100.64.100.1 255.255.255.0
+       negotiation auto
+       no mop enabled
+       no mop sysid
+      !
+      interface GigabitEthernet0/4
+       no shutdown
+       no ip address
+       shutdown
+       negotiation auto
+       no mop enabled
+       no mop sysid
+      !
+      router bgp 65100
+       bgp router-id 100.100.100.100
+       bgp log-neighbor-changes
+       network 100.64.100.0 mask 255.255.255.0
+       network 100.100.100.100 mask 255.255.255.255
+       neighbor 100.64.1.2 remote-as 65100
+       neighbor 100.64.1.2 route-reflector-client
+       neighbor 100.64.1.2 next-hop-self all
+       neighbor 100.64.2.2 remote-as 65100
+       neighbor 100.64.2.2 route-reflector-client
+       neighbor 100.64.2.2 next-hop-self all
+      !
+      ip forward-protocol nd
+      ip http server
+      ip http authentication local
+      ip http secure-server
+      !
+      !
+      !
+      !
+      !
+      !
+      control-plane
+      !
+      !
+      !
+      !
+      !
+      !
+      line con 0
+       stopbits 1
+      line vty 0 4
+       login
+      !
+      !
+      !
+      !
+      !
+      !
+      end
+    image_definition: iosv-159-3
+    tags: []
+    interfaces:
+      - id: i0
+        label: Loopback0
+        type: loopback
+      - id: i1
+        slot: 0
+        label: GigabitEthernet0/0
+        type: physical
+      - id: i2
+        slot: 1
+        label: GigabitEthernet0/1
+        type: physical
+      - id: i3
+        slot: 2
+        label: GigabitEthernet0/2
+        type: physical
+      - id: i4
+        slot: 3
+        label: GigabitEthernet0/3
+        type: physical
+  - id: n8
+    label: Site2-Fusion
+    node_definition: iosv
+    x: -750
+    y: -250
+    configuration: |-
+      !
+      ! Last configuration change at 02:49:47 UTC Fri May 29 2020
+      !
+      version 16.10
+      service timestamps debug datetime msec
+      service timestamps log datetime msec
+      service call-home
+      platform qfp utilization monitor load 80
+      no platform punt-keepalive disable-kernel-core
+      platform console serial
+      !
+      hostname Site2-Fusion
+      !
+      boot-start-marker
+      boot-end-marker
+      !
+      !
+      !
+      no aaa new-model
+      call-home
+       ! If contact email address in call-home is configured as sch-smart-licensing@cisco.com
+       ! the email address configured in Cisco Smart License Portal will be used as contact email address to send SCH notifications.
+       contact-email-addr sch-smart-licensing@cisco.com
+       profile "CiscoTAC-1"
+        active
+        destination transport-method http
+        no destination transport-method email
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      login on-success log
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      subscriber templating
+      !
+      !
+      !
+      !
+      !
+      multilink bundle-name authenticated
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      crypto pki trustpoint TP-self-signed-3587710930
+       enrollment selfsigned
+       subject-name cn=IOS-Self-Signed-Certificate-3587710930
+       revocation-check none
+       rsakeypair TP-self-signed-3587710930
+      !
+      crypto pki trustpoint SLA-TrustPoint
+       enrollment pkcs12
+       revocation-check crl
+      !
+      !
+      crypto pki certificate chain TP-self-signed-3587710930
+       certificate self-signed 01
+        30820330 30820218 A0030201 02020101 300D0609 2A864886 F70D0101 05050030
+        31312F30 2D060355 04031326 494F532D 53656C66 2D536967 6E65642D 43657274
+        69666963 6174652D 33353837 37313039 3330301E 170D3230 30353238 31323034
+        32325A17 0D333030 31303130 30303030 305A3031 312F302D 06035504 03132649
+        4F532D53 656C662D 5369676E 65642D43 65727469 66696361 74652D33 35383737
+        31303933 30308201 22300D06 092A8648 86F70D01 01010500 0382010F 00308201
+        0A028201 0100B50A 4081DA03 6D1B2AB0 C85FDA27 90F48A02 5CCD669D 61961AC9
+        1429ACCE 82CD4227 6F4FDF16 2B501092 1A0AC28D A2C8B5F7 5C59EE9F 5A9C7410
+        11251163 9860119B DDA36937 0FCF1559 A85EA6E5 92224C78 0DF5AD3E 4D7E6618
+        1EB2006E 2F50D7FD F0ABB048 569D3884 D456C8D6 7B7BAEB7 E30FEBC2 379CE417
+        5C410342 35EACFEC A7ABB9BA B7E7DBB0 044FE8B0 F92DA815 40CBA583 8EE67C2F
+        05624749 C9442AA0 C189C691 FDDB4462 0C127ED0 0325CCF4 8761FECD DD490231
+        48CA3541 0CE7E1D0 FCC8E7C8 CCA55D8E D2070C36 F3870969 8E943BE7 D1B4E08F
+        5174D5E8 B8E8E459 229A42F5 D53CD39E E361EC15 101178AF 6DA0BB42 C4E54AF6
+        6E2390A3 5B490203 010001A3 53305130 0F060355 1D130101 FF040530 030101FF
+        301F0603 551D2304 18301680 1439B1D0 6B862A2E C2E99417 FD0EA427 74ECB86A
+        F8301D06 03551D0E 04160414 39B1D06B 862A2EC2 E99417FD 0EA42774 ECB86AF8
+        300D0609 2A864886 F70D0101 05050003 82010100 108E8532 202D2329 2CD95E78
+        6D6DAE48 6192C7D7 76C9AB8E EF0BEDB4 53283227 1B393523 B3F5D605 359C1E77
+        78A7AB43 E0370758 64483201 C0FAC1D6 D5BE958E 2C276D15 5BD5D120 A08AEB7A
+        8D8492E8 C50B4F8E 8AA64D78 5E49F019 20AC4548 B2DB6666 A1AF9221 1A7DD6B5
+        1317BD17 FBCBD144 9EB3EBF0 34FD6163 5B80A3F7 687A9519 112DC472 680F2A68
+        73C73AC4 528DA057 9CD90B81 5CA6592E 4DD71C95 92B0804E DFBC1A44 9AE08896
+        23EA7197 D10FA0F5 E8FAB80C D9824D5B A1A57457 74D691D6 1203955F 1E043C3A
+        DC4D4C95 15013F34 15398FB3 7119794D 2E44975B 6BE30E48 D7E5DC38 E112150A
+        4C95CDEC 8774414F 74CFCA62 DFAE9128 7A7A0994
+        quit
+      crypto pki certificate chain SLA-TrustPoint
+       certificate ca 01
+        30820321 30820209 A0030201 02020101 300D0609 2A864886 F70D0101 0B050030
+        32310E30 0C060355 040A1305 43697363 6F312030 1E060355 04031317 43697363
+        6F204C69 63656E73 696E6720 526F6F74 20434130 1E170D31 33303533 30313934
+        3834375A 170D3338 30353330 31393438 34375A30 32310E30 0C060355 040A1305
+        43697363 6F312030 1E060355 04031317 43697363 6F204C69 63656E73 696E6720
+        526F6F74 20434130 82012230 0D06092A 864886F7 0D010101 05000382 010F0030
+        82010A02 82010100 A6BCBD96 131E05F7 145EA72C 2CD686E6 17222EA1 F1EFF64D
+        CBB4C798 212AA147 C655D8D7 9471380D 8711441E 1AAF071A 9CAE6388 8A38E520
+        1C394D78 462EF239 C659F715 B98C0A59 5BBB5CBD 0CFEBEA3 700A8BF7 D8F256EE
+        4AA4E80D DB6FD1C9 60B1FD18 FFC69C96 6FA68957 A2617DE7 104FDC5F EA2956AC
+        7390A3EB 2B5436AD C847A2C5 DAB553EB 69A9A535 58E9F3E3 C0BD23CF 58BD7188
+        68E69491 20F320E7 948E71D7 AE3BCC84 F10684C7 4BC8E00F 539BA42B 42C68BB7
+        C7479096 B4CB2D62 EA2F505D C7B062A4 6811D95B E8250FC4 5D5D5FB8 8F27D191
+        C55F0D76 61F9A4CD 3D992327 A8BB03BD 4E6D7069 7CBADF8B DF5F4368 95135E44
+        DFC7C6CF 04DD7FD1 02030100 01A34230 40300E06 03551D0F 0101FF04 04030201
+        06300F06 03551D13 0101FF04 05300301 01FF301D 0603551D 0E041604 1449DC85
+        4B3D31E5 1B3E6A17 606AF333 3D3B4C73 E8300D06 092A8648 86F70D01 010B0500
+        03820101 00507F24 D3932A66 86025D9F E838AE5C 6D4DF6B0 49631C78 240DA905
+        604EDCDE FF4FED2B 77FC460E CD636FDB DD44681E 3A5673AB 9093D3B1 6C9E3D8B
+        D98987BF E40CBD9E 1AECA0C2 2189BB5C 8FA85686 CD98B646 5575B146 8DFC66A8
+        467A3DF4 4D565700 6ADF0F0D CF835015 3C04FF7C 21E878AC 11BA9CD2 55A9232C
+        7CA7B7E6 C1AF74F6 152E99B7 B1FCF9BB E973DE7F 5BDDEB86 C71E3B49 1765308B
+        5FB0DA06 B92AFE7F 494E8A9E 07B85737 F3A58BE1 1A48A229 C37C1E69 39F08678
+        80DDCD16 D6BACECA EEBC7CF9 8428787B 35202CDC 60E4616A B623CDBD 230E3AFB
+        418616A9 4093E049 4D10AB75 27E86F73 932E35B5 8862FDAE 0275156F 719BB2F0
+        D697DF7F 28
+        quit
+      !
+      license udi pid CSR1000V sn 9PK32CGCRKL
+      diagnostic bootup level minimal
+      !
+      spanning-tree extend system-id
+      !
+      !
+      !
+      !
+      redundancy
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      interface Loopback0
+       no shutdown
+       ip address 102.102.102.102 255.255.255.255
+      !
+      interface GigabitEthernet0/1
+       no shutdown
+       description TO NONFABRIC CORE
+       ip address 100.64.2.2 255.255.255.252
+       negotiation auto
+       no mop enabled
+       no mop sysid
+      !
+      interface GigabitEthernet0/2
+       no shutdown
+       description TO SITE2-BORDER-CP
+       ip address 100.64.99.5 255.255.255.252
+       negotiation auto
+       no mop enabled
+       no mop sysid
+      !
+      interface GigabitEthernet0/3
+       no shutdown
+       no ip address
+       shutdown
+       negotiation auto
+       no mop enabled
+       no mop sysid
+      !
+      interface GigabitEthernet0/4
+       no shutdown
+       no ip address
+       shutdown
+       negotiation auto
+       no mop enabled
+       no mop sysid
+      !
+      router bgp 65100
+       bgp router-id 102.102.102.102
+       bgp log-neighbor-changes
+       network 102.102.102.102 mask 255.255.255.255
+       neighbor 100.64.2.1 remote-as 65100
+       neighbor 100.64.2.1 next-hop-self all
+      !
+      ip forward-protocol nd
+      ip http server
+      ip http authentication local
+      ip http secure-server
+      !
+      !
+      !
+      !
+      !
+      !
+      control-plane
+      !
+      !
+      !
+      !
+      !
+      !
+      line con 0
+       stopbits 1
+      line vty 0 4
+       login
+      !
+      !
+      !
+      !
+      !
+      !
+      end
+    image_definition: iosv-159-3
+    tags: []
+    interfaces:
+      - id: i0
+        label: Loopback0
+        type: loopback
+      - id: i1
+        slot: 0
+        label: GigabitEthernet0/0
+        type: physical
+      - id: i2
+        slot: 1
+        label: GigabitEthernet0/1
+        type: physical
+      - id: i3
+        slot: 2
+        label: GigabitEthernet0/2
+        type: physical
+      - id: i4
+        slot: 3
+        label: GigabitEthernet0/3
+        type: physical
+  - id: n9
+    label: Site2-Underlay
+    node_definition: iosv
+    x: -650
+    y: 50
+    configuration: |-
+      service timestamps debug datetime msec
+      service timestamps log datetime msec
+      service call-home
+      platform qfp utilization monitor load 80
+      no platform punt-keepalive disable-kernel-core
+      platform console serial
+      !
+      hostname Site2-Underlay
+      !
+      boot-start-marker
+      boot-end-marker
+      !
+      !
+      !
+      no aaa new-model
+      !
+      !
+      !
+      login on-success log
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      subscriber templating
+      !
+      !
+      !
+      !
+      !
+      multilink bundle-name authenticated
+      !
+      !
+      !
+      diagnostic bootup level minimal
+      !
+      spanning-tree extend system-id
+      !
+      !
+      !
+      !
+      redundancy
+      !
+      !
+      interface GigabitEthernet0/1
+       no shutdown
+       description LINK TO SITE2-EDGE1
+       ip address 192.168.200.6 255.255.255.252
+       negotiation auto
+       no mop enabled
+       no mop sysid
+      !
+      interface GigabitEthernet0/2
+       no shutdown
+       description LINK TO SITE2-BORDER-CP
+       ip address 192.168.200.9 255.255.255.252
+       negotiation auto
+       no mop enabled
+       no mop sysid
+      !
+      interface GigabitEthernet0/3
+       no shutdown
+       description LINK TO SITE2-EDGE2
+       ip address 192.168.200.13 255.255.255.252
+       negotiation auto
+       no mop enabled
+       no mop sysid
+      !
+      interface GigabitEthernet0/4
+       no shutdown
+       no ip address
+       shutdown
+       negotiation auto
+       no mop enabled
+       no mop sysid
+      !
+      !
+      ip forward-protocol nd
+      ip http server
+      ip http authentication local
+      ip http secure-server
+      !
+      !
+      !
+      !
+      !
+      !
+      control-plane
+      !
+      !
+      !
+      !
+      !
+      !
+      line con 0
+       stopbits 1
+      line vty 0 4
+       login
+      !
+      !
+      !
+      !
+      !
+      !
+      end
+    image_definition: iosv-159-3
+    tags: []
+    interfaces:
+      - id: i0
+        label: Loopback0
+        type: loopback
+      - id: i1
+        slot: 0
+        label: GigabitEthernet0/0
+        type: physical
+      - id: i2
+        slot: 1
+        label: GigabitEthernet0/1
+        type: physical
+      - id: i3
+        slot: 2
+        label: GigabitEthernet0/2
+        type: physical
+      - id: i4
+        slot: 3
+        label: GigabitEthernet0/3
+        type: physical
+links:
+  - id: l11
+    i1: i0
+    n1: n12
+    i2: i1
+    n2: n0
+  - id: l12
+    i1: i0
+    n1: n13
+    i2: i1
+    n2: n1
+  - id: l13
+    i1: i0
+    n1: n14
+    i2: i1
+    n2: n4
+  - id: l14
+    i1: i0
+    n1: n15
+    i2: i1
+    n2: n5
+  - id: l0
+    i1: i3
+    n1: n2
+    i2: i1
+    n2: n6
+  - id: l1
+    i1: i4
+    n1: n2
+    i2: i2
+    n2: n0
+  - id: l2
+    i1: i2
+    n1: n2
+    i2: i2
+    n2: n1
+  - id: l3
+    i1: i2
+    n1: n6
+    i2: i3
+    n2: n3
+  - id: l4
+    i1: i2
+    n1: n3
+    i2: i2
+    n2: n7
+  - id: l5
+    i1: i3
+    n1: n7
+    i2: i2
+    n2: n8
+  - id: l6
+    i1: i3
+    n1: n8
+    i2: i2
+    n2: n10
+  - id: l7
+    i1: i1
+    n1: n10
+    i2: i3
+    n2: n9
+  - id: l8
+    i1: i2
+    n1: n4
+    i2: i2
+    n2: n9
+  - id: l9
+    i1: i2
+    n1: n5
+    i2: i4
+    n2: n9
+  - id: l10
+    i1: i4
+    n1: n7
+    i2: i0
+    n2: n11
