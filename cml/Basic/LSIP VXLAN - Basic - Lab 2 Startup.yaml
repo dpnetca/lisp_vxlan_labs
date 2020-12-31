@@ -1,0 +1,2281 @@
+lab:
+  description: |-
+    LISP / VXLAN Basic Workbook - Lab 1
+    These topology files and configs are part of the LISP/VXLAN Basic Workbook available on Leanpub, copyright 2020 Tim McConnaughy.
+  notes: ''
+  timestamp: 1609450315.688639
+  title: LSIP VXLAN - Basic - Lab 2 Startup
+  version: 0.0.4
+nodes:
+  - id: n0
+    label: Site1-Edge2
+    node_definition: csr1000v
+    x: -1350
+    y: 200
+    configuration: |-
+      !
+      ! Last configuration change at 20:29:21 UTC Tue Jun 2 2020
+      !
+      version 16.10
+      service timestamps debug datetime msec
+      service timestamps log datetime msec
+      service call-home
+      platform qfp utilization monitor load 80
+      no platform punt-keepalive disable-kernel-core
+      platform console serial
+      !
+      hostname Site1-Edge2
+      !
+      boot-start-marker
+      boot-end-marker
+      !
+      !
+      !
+      no aaa new-model
+      !
+      !
+      !
+      !
+      !
+      login on-success log
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      subscriber templating
+      !
+      !
+      !
+      !
+      !
+      multilink bundle-name authenticated
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      license udi pid CSR1000V sn 96YYSUJ954B
+      diagnostic bootup level minimal
+      !
+      spanning-tree extend system-id
+      !
+      !
+      !
+      !
+      redundancy
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      interface Loopback0
+       no shutdown
+       description RLOC FOR LISP/VXLAN
+       ip address 12.12.12.12 255.255.255.255
+       ip router isis
+      !
+      interface GigabitEthernet1
+       no shutdown
+       description SITE1-1010-USERS
+       mac-address 1010.1010.1010
+       ip address 10.10.1.1 255.255.255.0
+       no ip redirects
+       ip local-proxy-arp
+       ip route-cache same-interface
+       negotiation auto
+       no mop enabled
+       no mop sysid
+      !
+      interface GigabitEthernet2
+       no shutdown
+       description LINK TO UNDERLAY
+       ip address 192.168.100.14 255.255.255.252
+       ip router isis
+       negotiation auto
+       no mop enabled
+       no mop sysid
+       isis network point-to-point
+      !
+      interface GigabitEthernet3
+       no shutdown
+       description SITE1-1020-HR
+       mac-address 2020.2020.2020
+       ip address 10.20.1.1 255.255.255.0
+       no ip redirects
+       ip local-proxy-arp
+       ip route-cache same-interface
+       negotiation auto
+       no mop enabled
+       no mop sysid
+      !
+      interface GigabitEthernet4
+       no shutdown
+       description SITE1-1099-INFRA
+       mac-address 9090.9090.9090
+       ip address 10.99.1.1 255.255.255.0
+       no ip redirects
+       ip local-proxy-arp
+       ip route-cache same-interface
+       negotiation auto
+       no mop enabled
+       no mop sysid
+      !
+      router isis
+       net 49.0001.0120.1201.2012.00
+       is-type level-2-only
+       domain-password cisco123
+       metric-style wide
+       log-adjacency-changes
+      !
+      ip forward-protocol nd
+      ip http server
+      ip http authentication local
+      ip http secure-server
+      !
+      !
+      !
+      !
+      !
+      !
+      control-plane
+      !
+      !
+      !
+      !
+      !
+      !
+      line con 0
+       stopbits 1
+      line vty 0 4
+       login
+      !
+      !
+      !
+      !
+      !
+      !
+      end
+    image_definition: csr1000v-170301a
+    tags: []
+    interfaces:
+      - id: i0
+        label: Loopback0
+        type: loopback
+      - id: i1
+        slot: 0
+        label: GigabitEthernet1
+        type: physical
+      - id: i2
+        slot: 1
+        label: GigabitEthernet2
+        type: physical
+      - id: i3
+        slot: 2
+        label: GigabitEthernet3
+        type: physical
+      - id: i4
+        slot: 3
+        label: GigabitEthernet4
+        type: physical
+  - id: n1
+    label: Site1-Edge1
+    node_definition: csr1000v
+    x: -1150
+    y: 200
+    configuration: |-
+      !
+      ! Last configuration change at 20:28:34 UTC Tue Jun 2 2020
+      !
+      version 16.10
+      service timestamps debug datetime msec
+      service timestamps log datetime msec
+      service call-home
+      platform qfp utilization monitor load 80
+      no platform punt-keepalive disable-kernel-core
+      platform console serial
+      !
+      hostname Site1-Edge1
+      !
+      boot-start-marker
+      boot-end-marker
+      !
+      !
+      !
+      no aaa new-model
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      login on-success log
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      subscriber templating
+      !
+      !
+      !
+      !
+      !
+      multilink bundle-name authenticated
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      license udi pid CSR1000V sn 9BCE7Q0GNV5
+      diagnostic bootup level minimal
+      !
+      spanning-tree extend system-id
+      !
+      !
+      !
+      !
+      redundancy
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      interface Loopback0
+       no shutdown
+       description RLOC FOR LISP/VXLAN
+       ip address 11.11.11.11 255.255.255.255
+       ip router isis
+      !
+      interface GigabitEthernet1
+       no shutdown
+       description SITE1-1010-USERS
+       mac-address 1010.1010.1010
+       ip address 10.10.1.1 255.255.255.0
+       no ip redirects
+       ip local-proxy-arp
+       ip route-cache same-interface
+       negotiation auto
+       no mop enabled
+       no mop sysid
+      !
+      interface GigabitEthernet2
+       no shutdown
+       description LINK TO UNDERLAY
+       ip address 192.168.100.5 255.255.255.252
+       no ip redirects
+       ip local-proxy-arp
+       ip router isis
+       ip route-cache same-interface
+       negotiation auto
+       no mop enabled
+       no mop sysid
+       isis network point-to-point
+      !
+      interface GigabitEthernet3
+       no shutdown
+       description SITE1-1020-HR
+       mac-address 2020.2020.2020
+       ip address 10.20.1.1 255.255.255.0
+       no ip redirects
+       ip local-proxy-arp
+       ip route-cache same-interface
+       negotiation auto
+       no mop enabled
+       no mop sysid
+      !
+      interface GigabitEthernet4
+       no shutdown
+       description SITE1-1099-INFRA
+       mac-address 9090.9090.9090
+       ip address 10.99.1.1 255.255.255.0
+       no ip redirects
+       ip local-proxy-arp
+       ip route-cache same-interface
+       negotiation auto
+       no mop enabled
+       no mop sysid
+      !
+      router isis
+       net 49.0001.0110.1101.1011.00
+       is-type level-2-only
+       domain-password cisco123
+       metric-style wide
+       log-adjacency-changes
+      !
+      ip forward-protocol nd
+      ip http server
+      ip http authentication local
+      ip http secure-server
+      !
+      !
+      !
+      !
+      !
+      !
+      control-plane
+      !
+      !
+      !
+      !
+      !
+      !
+      line con 0
+       stopbits 1
+      line vty 0 4
+       login
+      !
+      !
+      !
+      !
+      !
+      !
+      end
+    image_definition: csr1000v-170301a
+    tags: []
+    interfaces:
+      - id: i0
+        label: Loopback0
+        type: loopback
+      - id: i1
+        slot: 0
+        label: GigabitEthernet1
+        type: physical
+      - id: i2
+        slot: 1
+        label: GigabitEthernet2
+        type: physical
+      - id: i3
+        slot: 2
+        label: GigabitEthernet3
+        type: physical
+      - id: i4
+        slot: 3
+        label: GigabitEthernet4
+        type: physical
+  - id: n4
+    label: Site2-Edge-1
+    node_definition: csr1000v
+    x: -750
+    y: 200
+    configuration: |-
+      !
+      ! Last configuration change at 20:28:26 UTC Tue Jun 2 2020
+      !
+      version 16.10
+      service timestamps debug datetime msec
+      service timestamps log datetime msec
+      service call-home
+      platform qfp utilization monitor load 80
+      no platform punt-keepalive disable-kernel-core
+      platform console serial
+      !
+      hostname Site2-Edge1
+      !
+      boot-start-marker
+      boot-end-marker
+      !
+      !
+      !
+      no aaa new-model
+      !
+      !
+      !
+      !
+      !
+      login on-success log
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      subscriber templating
+      !
+      !
+      !
+      !
+      !
+      multilink bundle-name authenticated
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      license udi pid CSR1000V sn 92LQ3E536MN
+      diagnostic bootup level minimal
+      !
+      spanning-tree extend system-id
+      !
+      !
+      !
+      !
+      redundancy
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      interface Loopback0
+       no shutdown
+       description RLOC FOR LISP/VXLAN
+       ip address 21.21.21.21 255.255.255.255
+       ip router isis
+      !
+      interface GigabitEthernet1
+       no shutdown
+       description SITE2-1030-USERS2
+       mac-address 3030.3030.3030
+       ip address 10.30.1.1 255.255.255.0
+       no ip redirects
+       ip local-proxy-arp
+       ip route-cache same-interface
+       negotiation auto
+       no mop enabled
+       no mop sysid
+      !
+      interface GigabitEthernet2
+       no shutdown
+       description LINK TO SITE2-UNDERLAY
+       ip address 192.168.200.5 255.255.255.252
+       ip router isis
+       negotiation auto
+       no mop enabled
+       no mop sysid
+       isis network point-to-point
+      !
+      interface GigabitEthernet3
+       no shutdown
+       description SITE2-1040-SEC
+       mac-address 4040.4040.4040
+       ip address 10.40.1.1 255.255.255.0
+       no ip redirects
+       ip local-proxy-arp
+       ip route-cache same-interface
+       negotiation auto
+       no mop enabled
+       no mop sysid
+      !
+      interface GigabitEthernet4
+       no shutdown
+       description SITE2-1099-INFRA
+       mac-address 9090.9090.9090
+       ip address 10.99.2.1 255.255.255.0
+       no ip redirects
+       ip local-proxy-arp
+       ip route-cache same-interface
+       negotiation auto
+       no mop enabled
+       no mop sysid
+      !
+      router isis
+       net 49.0002.0210.2102.1021.00
+       is-type level-2-only
+       domain-password cisco123
+       metric-style wide
+       log-adjacency-changes
+      !
+      ip forward-protocol nd
+      ip http server
+      ip http authentication local
+      ip http secure-server
+      !
+      !
+      !
+      !
+      !
+      !
+      control-plane
+      !
+      !
+      !
+      !
+      !
+      !
+      line con 0
+       stopbits 1
+      line vty 0 4
+       login
+      !
+      !
+      !
+      !
+      !
+      !
+      end
+    image_definition: csr1000v-170301a
+    tags: []
+    interfaces:
+      - id: i0
+        label: Loopback0
+        type: loopback
+      - id: i1
+        slot: 0
+        label: GigabitEthernet1
+        type: physical
+      - id: i2
+        slot: 1
+        label: GigabitEthernet2
+        type: physical
+      - id: i3
+        slot: 2
+        label: GigabitEthernet3
+        type: physical
+      - id: i4
+        slot: 3
+        label: GigabitEthernet4
+        type: physical
+  - id: n5
+    label: Site2-Edge2
+    node_definition: csr1000v
+    x: -550
+    y: 200
+    configuration: |-
+      !
+      ! Last configuration change at 20:29:21 UTC Tue Jun 2 2020
+      !
+      version 16.10
+      service timestamps debug datetime msec
+      service timestamps log datetime msec
+      service call-home
+      platform qfp utilization monitor load 80
+      no platform punt-keepalive disable-kernel-core
+      platform console serial
+      !
+      hostname Site2-Edge2
+      !
+      boot-start-marker
+      boot-end-marker
+      !
+      !
+      !
+      no aaa new-model
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      login on-success log
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      subscriber templating
+      !
+      !
+      !
+      !
+      !
+      multilink bundle-name authenticated
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      license udi pid CSR1000V sn 9KWVOM7KEEF
+      diagnostic bootup level minimal
+      !
+      spanning-tree extend system-id
+      !
+      !
+      !
+      !
+      redundancy
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      interface Loopback0
+       no shutdown
+       description RLOC FOR LISP/VXLAN
+       ip address 22.22.22.22 255.255.255.255
+       ip router isis
+      !
+      interface GigabitEthernet1
+       no shutdown
+       description SITE2-1030-USERS2
+       mac-address 3030.3030.3030
+       ip address 10.30.1.1 255.255.255.0
+       no ip redirects
+       ip local-proxy-arp
+       ip route-cache same-interface
+       negotiation auto
+       no mop enabled
+       no mop sysid
+      !
+      interface GigabitEthernet2
+       no shutdown
+       description LINK TO SITE2-UNDERLAY
+       ip address 192.168.200.14 255.255.255.252
+       ip router isis
+       negotiation auto
+       no mop enabled
+       no mop sysid
+       isis network point-to-point
+      !
+      interface GigabitEthernet3
+       no shutdown
+       description SITE2-1040-SEC
+       mac-address 4040.4040.4040
+       ip address 10.40.1.1 255.255.255.0
+       no ip redirects
+       ip local-proxy-arp
+       ip route-cache same-interface
+       negotiation auto
+       no mop enabled
+       no mop sysid
+      !
+      interface GigabitEthernet4
+       no shutdown
+       description SITE2-1099-INFRA
+       mac-address 9090.9090.9090
+       ip address 10.99.2.1 255.255.255.0
+       no ip redirects
+       ip local-proxy-arp
+       ip route-cache same-interface
+       negotiation auto
+       no mop enabled
+       no mop sysid
+      !
+      router isis
+       net 49.0002.0220.2202.2022.00
+       is-type level-2-only
+       domain-password cisco123
+       metric-style wide
+       log-adjacency-changes
+      !
+      ip forward-protocol nd
+      ip http server
+      ip http authentication local
+      ip http secure-server
+      !
+      !
+      !
+      !
+      !
+      !
+      control-plane
+      !
+      !
+      !
+      !
+      !
+      !
+      line con 0
+       stopbits 1
+      line vty 0 4
+       login
+      !
+      !
+      !
+      !
+      !
+      !
+      end
+    image_definition: csr1000v-170301a
+    tags: []
+    interfaces:
+      - id: i0
+        label: Loopback0
+        type: loopback
+      - id: i1
+        slot: 0
+        label: GigabitEthernet1
+        type: physical
+      - id: i2
+        slot: 1
+        label: GigabitEthernet2
+        type: physical
+      - id: i3
+        slot: 2
+        label: GigabitEthernet3
+        type: physical
+      - id: i4
+        slot: 3
+        label: GigabitEthernet4
+        type: physical
+  - id: n6
+    label: Site1-Border-CP
+    node_definition: csr1000v
+    x: -1250
+    y: -100
+    configuration: |-
+      !
+      ! Last configuration change at 20:28:32 UTC Tue Jun 2 2020
+      !
+      version 16.10
+      service timestamps debug datetime msec
+      service timestamps log datetime msec
+      service call-home
+      platform qfp utilization monitor load 80
+      no platform punt-keepalive disable-kernel-core
+      platform console serial
+      !
+      hostname Site1-Border-CP
+      !
+      boot-start-marker
+      boot-end-marker
+      !
+      !
+      !
+      no aaa new-model
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      login on-success log
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      subscriber templating
+      !
+      !
+      !
+      !
+      !
+      multilink bundle-name authenticated
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      license udi pid CSR1000V sn 9D2RS883HG6
+      diagnostic bootup level minimal
+      !
+      spanning-tree extend system-id
+      !
+      !
+      !
+      !
+      redundancy
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      interface Loopback0
+       no shutdown
+       description RLOC FOR LISP/VXLAN/MS/MR
+       ip address 10.10.10.10 255.255.255.255
+       ip router isis
+      !
+      interface GigabitEthernet1
+       no shutdown
+       description LINK TO UNDERLAY
+       ip address 192.168.100.10 255.255.255.252
+       ip router isis
+       negotiation auto
+       no mop enabled
+       no mop sysid
+       isis network point-to-point
+      !
+      interface GigabitEthernet2
+       no shutdown
+       description LINK TO SITE1-FUSION
+       ip address 100.64.99.2 255.255.255.252
+       negotiation auto
+       no mop enabled
+       no mop sysid
+      !
+      interface GigabitEthernet3
+       no shutdown
+       no ip address
+       shutdown
+       negotiation auto
+       no mop enabled
+       no mop sysid
+      !
+      interface GigabitEthernet4
+       no shutdown
+       no ip address
+       shutdown
+       negotiation auto
+       no mop enabled
+       no mop sysid
+      !
+      router lisp
+       locator-table default
+       service ipv4
+        map-server
+        map-resolver
+        exit-service-ipv4
+       !
+       site SITE1
+        authentication-key cisco123
+        eid-record 10.99.1.0/24 accept-more-specifics
+        exit-site
+       !
+       exit-router-lisp
+      !
+      router isis
+       net 49.0001.0100.1001.0010.00
+       is-type level-2-only
+       domain-password cisco123
+       metric-style wide
+       log-adjacency-changes
+      !
+      ip forward-protocol nd
+      ip http server
+      ip http authentication local
+      ip http secure-server
+      !
+      !
+      !
+      !
+      !
+      !
+      control-plane
+      !
+      !
+      !
+      !
+      !
+      !
+      line con 0
+       stopbits 1
+      line vty 0 4
+       login
+      !
+      !
+      !
+      !
+      !
+      !
+      end
+    image_definition: csr1000v-170301a
+    tags: []
+    interfaces:
+      - id: i0
+        label: Loopback0
+        type: loopback
+      - id: i1
+        slot: 0
+        label: GigabitEthernet1
+        type: physical
+      - id: i2
+        slot: 1
+        label: GigabitEthernet2
+        type: physical
+      - id: i3
+        slot: 2
+        label: GigabitEthernet3
+        type: physical
+      - id: i4
+        slot: 3
+        label: GigabitEthernet4
+        type: physical
+  - id: n10
+    label: Site2-Border-CP
+    node_definition: csr1000v
+    x: -700
+    y: -100
+    configuration: |-
+      !
+      ! Last configuration change at 20:28:23 UTC Tue Jun 2 2020
+      !
+      version 16.10
+      service timestamps debug datetime msec
+      service timestamps log datetime msec
+      service call-home
+      platform qfp utilization monitor load 80
+      no platform punt-keepalive disable-kernel-core
+      platform console serial
+      !
+      hostname Site2-Border-CP
+      !
+      boot-start-marker
+      boot-end-marker
+      !
+      !
+      !
+      no aaa new-model
+      !
+      !
+      !
+      login on-success log
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      subscriber templating
+      !
+      !
+      !
+      !
+      !
+      multilink bundle-name authenticated
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      license udi pid CSR1000V sn 9BMOO514AX2
+      diagnostic bootup level minimal
+      !
+      spanning-tree extend system-id
+      !
+      !
+      !
+      !
+      redundancy
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      interface Loopback0
+       no shutdown
+       description RLOC FOR LISP/VXLAN/MS/MR
+       ip address 20.20.20.20 255.255.255.255
+       ip router isis
+      !
+      interface GigabitEthernet1
+       no shutdown
+       description LINK TO SITE2-UNDERLAY
+       ip address 192.168.200.10 255.255.255.252
+       ip router isis
+       negotiation auto
+       no mop enabled
+       no mop sysid
+       isis network point-to-point
+      !
+      interface GigabitEthernet2
+       no shutdown
+       description LINK TO SITE2-FUSION
+       ip address 100.64.99.6 255.255.255.252
+       negotiation auto
+       no mop enabled
+       no mop sysid
+      !
+      interface GigabitEthernet3
+       no shutdown
+       no ip address
+       shutdown
+       negotiation auto
+       no mop enabled
+       no mop sysid
+      !
+      interface GigabitEthernet4
+       no shutdown
+       no ip address
+       shutdown
+       negotiation auto
+       no mop enabled
+       no mop sysid
+      !
+
+      router lisp
+       locator-table default
+       service ipv4
+        map-server
+        map-resolver
+        exit-service-ipv4
+       !
+       site SITE2
+        authentication-key cisco123
+        eid-record 10.99.2.0/24 accept-more-specifics
+        exit-site
+       !
+       exit-router-lisp
+      !
+      router isis
+       net 49.0002.0200.2002.0020.00
+       is-type level-2-only
+       domain-password cisco123
+       metric-style wide
+       log-adjacency-changes
+      !
+      ip forward-protocol nd
+      ip http server
+      ip http authentication local
+      ip http secure-server
+      !
+      !
+      !
+      !
+      !
+      !
+      control-plane
+      !
+      !
+      !
+      !
+      !
+      !
+      line con 0
+       stopbits 1
+      line vty 0 4
+       login
+      !
+      !
+      !
+      !
+      !
+      !
+      end
+    image_definition: csr1000v-170301a
+    tags: []
+    interfaces:
+      - id: i0
+        label: Loopback0
+        type: loopback
+      - id: i1
+        slot: 0
+        label: GigabitEthernet1
+        type: physical
+      - id: i2
+        slot: 1
+        label: GigabitEthernet2
+        type: physical
+      - id: i3
+        slot: 2
+        label: GigabitEthernet3
+        type: physical
+      - id: i4
+        slot: 3
+        label: GigabitEthernet4
+        type: physical
+  - id: n11
+    label: SERVER
+    node_definition: server
+    x: -950
+    y: -400
+    configuration: |-
+      # this is a shell script which will be sourced at boot
+      # if you change the hostname then you need to add a
+      # /etc/hosts entry as well to make X11 happy
+      hostname SERVER
+      # like this:
+      echo "127.0.0.1   SERVER" >>/etc/hosts
+      ip addr add 100.64.100.100 dev eth0
+      ip route add default via 100.64.100.1 dev eth0
+    image_definition: server-tcl-8-2-1
+    tags: []
+    interfaces:
+      - id: i0
+        slot: 0
+        label: eth0
+        type: physical
+  - id: n13
+    label: Site1-User1
+    node_definition: desktop
+    x: -1150
+    y: 300
+    configuration: |-
+      # this is a shell script which will be sourced at boot
+      # if you change the hostname then you need to add a
+      # /etc/hosts entry as well to make X11 happy
+      hostname Site1-User1
+      # like this:
+      echo "127.0.0.1   Site1-User1" >>/etc/hosts
+      ip addr add 10.99.1.10/24 dev eth0
+      ip route add default via 10.99.1.1 dev eth0
+    image_definition: desktop-3-12-xfce
+    tags: []
+    interfaces:
+      - id: i0
+        slot: 0
+        label: eth0
+        type: physical
+  - id: n12
+    label: Site1-User2
+    node_definition: desktop
+    x: -1350
+    y: 300
+    configuration: |-
+      # this is a shell script which will be sourced at boot
+      # if you change the hostname then you need to add a
+      # /etc/hosts entry as well to make X11 happy
+      hostname Site1-User2
+      # like this:
+      echo "127.0.0.1   Site1-User2" >>/etc/hosts
+      ip addr add 10.99.1.20/24 dev eth0
+      ip route add default via 10.99.1.1 dev eth0
+    image_definition: desktop-3-12-xfce
+    tags: []
+    interfaces:
+      - id: i0
+        slot: 0
+        label: eth0
+        type: physical
+  - id: n14
+    label: Site2-User1
+    node_definition: desktop
+    x: -750
+    y: 300
+    configuration: |-
+      # this is a shell script which will be sourced at boot
+      # if you change the hostname then you need to add a
+      # /etc/hosts entry as well to make X11 happy
+      hostname Site1-User1
+      # like this:
+      echo "127.0.0.1   Site2-User2" >>/etc/hosts
+      ip addr add 10.99.2.10/24 dev eth0
+      ip route add default via 10.99.2.1 dev eth0
+    image_definition: desktop-3-12-xfce
+    tags: []
+    interfaces:
+      - id: i0
+        slot: 0
+        label: eth0
+        type: physical
+  - id: n15
+    label: Site2-User2
+    node_definition: desktop
+    x: -550
+    y: 300
+    configuration: |-
+      # this is a shell script which will be sourced at boot
+      # if you change the hostname then you need to add a
+      # /etc/hosts entry as well to make X11 happy
+      hostname Site2-User2
+      # like this:
+      echo "127.0.0.1   Site2-User2" >>/etc/hosts
+      ip addr add 10.99.2.20/24 dev eth0
+      ip route add default via 10.99.2.1 dev eth0
+    image_definition: desktop-3-12-xfce
+    tags: []
+    interfaces:
+      - id: i0
+        slot: 0
+        label: eth0
+        type: physical
+  - id: n2
+    label: Site1-Underlay
+    node_definition: iosv
+    x: -1250
+    y: 50
+    configuration: |-
+      !
+      ! Last configuration change at 20:28:22 UTC Tue Jun 2 2020
+      !
+      version 16.10
+      service timestamps debug datetime msec
+      service timestamps log datetime msec
+      service call-home
+      platform qfp utilization monitor load 80
+      no platform punt-keepalive disable-kernel-core
+      platform console serial
+      !
+      hostname Site1-Underlay
+      !
+      boot-start-marker
+      boot-end-marker
+      !
+      !
+      !
+      no aaa new-model
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      login on-success log
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      subscriber templating
+      !
+      !
+      !
+      !
+      !
+      multilink bundle-name authenticated
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      license udi pid CSR1000V sn 9CFJDSZSDZR
+      diagnostic bootup level minimal
+      !
+      spanning-tree extend system-id
+      !
+      !
+      !
+      !
+      redundancy
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      interface GigabitEthernet0/1
+       no shutdown
+       description LINK TO SITE1-EDGE1
+       ip address 192.168.100.6 255.255.255.252
+       ip router isis
+       negotiation auto
+       no mop enabled
+       no mop sysid
+       isis network point-to-point
+      !
+      interface GigabitEthernet0/2
+       no shutdown
+       description LINK TO SITE1-BORDER-CP
+       ip address 192.168.100.9 255.255.255.252
+       ip router isis
+       negotiation auto
+       no mop enabled
+       no mop sysid
+       isis network point-to-point
+      !
+      interface GigabitEthernet0/3
+       no shutdown
+       description LINK TO SITE1-EDGE2
+       ip address 192.168.100.13 255.255.255.252
+       ip router isis
+       negotiation auto
+       no mop enabled
+       no mop sysid
+       isis network point-to-point
+      !
+      interface GigabitEthernet0/4
+       no shutdown
+       no ip address
+       shutdown
+       negotiation auto
+       no mop enabled
+       no mop sysid
+      !
+      router isis
+       net 49.0001.1921.6810.0009.00
+       is-type level-2-only
+       domain-password cisco123
+       metric-style wide
+       log-adjacency-changes
+      !
+      ip forward-protocol nd
+      ip http server
+      ip http authentication local
+      ip http secure-server
+      !
+      !
+      !
+      control-plane
+      !
+      !
+      !
+      !
+      !
+      !
+      line con 0
+       stopbits 1
+      line vty 0 4
+       login
+      !
+      !
+      !
+      !
+      !
+      !
+      end
+    image_definition: iosv-159-3
+    tags: []
+    interfaces:
+      - id: i0
+        label: Loopback0
+        type: loopback
+      - id: i1
+        slot: 0
+        label: GigabitEthernet0/0
+        type: physical
+      - id: i2
+        slot: 1
+        label: GigabitEthernet0/1
+        type: physical
+      - id: i3
+        slot: 2
+        label: GigabitEthernet0/2
+        type: physical
+      - id: i4
+        slot: 3
+        label: GigabitEthernet0/3
+        type: physical
+  - id: n3
+    label: Site1-Fusion
+    node_definition: iosv
+    x: -1150
+    y: -250
+    configuration: |-
+      !
+      ! Last configuration change at 20:29:21 UTC Tue Jun 2 2020
+      !
+      version 16.10
+      service timestamps debug datetime msec
+      service timestamps log datetime msec
+      service call-home
+      platform qfp utilization monitor load 80
+      no platform punt-keepalive disable-kernel-core
+      platform console serial
+      !
+      hostname Site1-Fusion
+      !
+      boot-start-marker
+      boot-end-marker
+      !
+      !
+      !
+      no aaa new-model
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      login on-success log
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      subscriber templating
+      !
+      !
+      !
+      !
+      !
+      multilink bundle-name authenticated
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      license udi pid CSR1000V sn 9XADRDGJN9Z
+      diagnostic bootup level minimal
+      !
+      spanning-tree extend system-id
+      !
+      !
+      !
+      !
+      redundancy
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      interface Loopback0
+       no shutdown
+       ip address 101.101.101.101 255.255.255.255
+      !
+      interface GigabitEthernet0/1
+       no shutdown
+       description TO NONFABRIC CORE
+       ip address 100.64.1.2 255.255.255.252
+       negotiation auto
+       no mop enabled
+       no mop sysid
+      !
+      interface GigabitEthernet0/2
+       no shutdown
+       description LINK TO SITE1 BORDER-CP
+       ip address 100.64.99.1 255.255.255.252
+       negotiation auto
+       no mop enabled
+       no mop sysid
+      !
+      interface GigabitEthernet0/3
+       no shutdown
+       no ip address
+       shutdown
+       negotiation auto
+       no mop enabled
+       no mop sysid
+      !
+      interface GigabitEthernet0/4
+       no shutdown
+       no ip address
+       shutdown
+       negotiation auto
+       no mop enabled
+       no mop sysid
+      !
+      router bgp 65100
+       bgp router-id 101.101.101.101
+       bgp log-neighbor-changes
+       network 101.101.101.101 mask 255.255.255.255
+       neighbor 100.64.1.1 remote-as 65100
+       neighbor 100.64.1.1 next-hop-self all
+      !
+      ip forward-protocol nd
+      ip http server
+      ip http authentication local
+      ip http secure-server
+      !
+      !
+      !
+      !
+      !
+      !
+      control-plane
+      !
+      !
+      !
+      !
+      !
+      !
+      line con 0
+       stopbits 1
+      line vty 0 4
+       login
+      !
+      !
+      !
+      !
+      !
+      !
+      end
+    image_definition: iosv-159-3
+    tags: []
+    interfaces:
+      - id: i0
+        label: Loopback0
+        type: loopback
+      - id: i1
+        slot: 0
+        label: GigabitEthernet0/0
+        type: physical
+      - id: i2
+        slot: 1
+        label: GigabitEthernet0/1
+        type: physical
+      - id: i3
+        slot: 2
+        label: GigabitEthernet0/2
+        type: physical
+      - id: i4
+        slot: 3
+        label: GigabitEthernet0/3
+        type: physical
+  - id: n7
+    label: Non-Fabric-Core
+    node_definition: iosv
+    x: -950
+    y: -300
+    configuration: |-
+      !
+      ! Last configuration change at 20:29:03 UTC Tue Jun 2 2020
+      !
+      version 16.10
+      service timestamps debug datetime msec
+      service timestamps log datetime msec
+      service call-home
+      platform qfp utilization monitor load 80
+      no platform punt-keepalive disable-kernel-core
+      platform console serial
+      !
+      hostname Non-Fabric-Core
+      !
+      boot-start-marker
+      boot-end-marker
+      !
+      !
+      !
+      no aaa new-model
+      !
+      !
+      login on-success log
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      subscriber templating
+      !
+      !
+      !
+      !
+      !
+      multilink bundle-name authenticated
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      license udi pid CSR1000V sn 960J8D94B0R
+      diagnostic bootup level minimal
+      !
+      spanning-tree extend system-id
+      !
+      !
+      !
+      !
+      redundancy
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      interface Loopback0
+       no shutdown
+       ip address 100.100.100.100 255.255.255.255
+      !
+      interface GigabitEthernet0/1
+       no shutdown
+       description TO SITE1 FUSION
+       ip address 100.64.1.1 255.255.255.252
+       negotiation auto
+       no mop enabled
+       no mop sysid
+      !
+      interface GigabitEthernet0/2
+       no shutdown
+       description TO SITE2 FUSION
+       ip address 100.64.2.1 255.255.255.252
+       negotiation auto
+       no mop enabled
+       no mop sysid
+      !
+      interface GigabitEthernet0/3
+       no shutdown
+       description SHARED SERVICES SERVER
+       ip address 100.64.100.1 255.255.255.0
+       negotiation auto
+       no mop enabled
+       no mop sysid
+      !
+      interface GigabitEthernet0/4
+       no shutdown
+       no ip address
+       shutdown
+       negotiation auto
+       no mop enabled
+       no mop sysid
+      !
+      router bgp 65100
+       bgp router-id 100.100.100.100
+       bgp log-neighbor-changes
+       network 100.64.100.0 mask 255.255.255.0
+       network 100.100.100.100 mask 255.255.255.255
+       neighbor 100.64.1.2 remote-as 65100
+       neighbor 100.64.1.2 route-reflector-client
+       neighbor 100.64.1.2 next-hop-self all
+       neighbor 100.64.2.2 remote-as 65100
+       neighbor 100.64.2.2 route-reflector-client
+       neighbor 100.64.2.2 next-hop-self all
+      !
+      ip forward-protocol nd
+      ip http server
+      ip http authentication local
+      ip http secure-server
+      !
+      !
+      !
+      !
+      !
+      !
+      control-plane
+      !
+      !
+      !
+      !
+      !
+      !
+      line con 0
+       stopbits 1
+      line vty 0 4
+       login
+      !
+      !
+      !
+      !
+      !
+      !
+      end
+    image_definition: iosv-159-3
+    tags: []
+    interfaces:
+      - id: i0
+        label: Loopback0
+        type: loopback
+      - id: i1
+        slot: 0
+        label: GigabitEthernet0/0
+        type: physical
+      - id: i2
+        slot: 1
+        label: GigabitEthernet0/1
+        type: physical
+      - id: i3
+        slot: 2
+        label: GigabitEthernet0/2
+        type: physical
+      - id: i4
+        slot: 3
+        label: GigabitEthernet0/3
+        type: physical
+  - id: n8
+    label: Site2-Fusion
+    node_definition: iosv
+    x: -750
+    y: -250
+    configuration: |-
+      !
+      ! Last configuration change at 20:29:02 UTC Tue Jun 2 2020
+      !
+      version 16.10
+      service timestamps debug datetime msec
+      service timestamps log datetime msec
+      service call-home
+      platform qfp utilization monitor load 80
+      no platform punt-keepalive disable-kernel-core
+      platform console serial
+      !
+      hostname Site2-Fusion
+      !
+      boot-start-marker
+      boot-end-marker
+      !
+      !
+      !
+      no aaa new-model
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      login on-success log
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      subscriber templating
+      !
+      !
+      !
+      !
+      !
+      multilink bundle-name authenticated
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      license udi pid CSR1000V sn 9CFYC6SCOXH
+      diagnostic bootup level minimal
+      !
+      spanning-tree extend system-id
+      !
+      !
+      !
+      !
+      redundancy
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      interface Loopback0
+       no shutdown
+       ip address 102.102.102.102 255.255.255.255
+      !
+      interface GigabitEthernet0/1
+       no shutdown
+       description TO NONFABRIC CORE
+       ip address 100.64.2.2 255.255.255.252
+       negotiation auto
+       no mop enabled
+       no mop sysid
+      !
+      interface GigabitEthernet0/2
+       no shutdown
+       description TO SITE2-BORDER-CP
+       ip address 100.64.99.5 255.255.255.252
+       negotiation auto
+       no mop enabled
+       no mop sysid
+      !
+      interface GigabitEthernet0/3
+       no shutdown
+       no ip address
+       shutdown
+       negotiation auto
+       no mop enabled
+       no mop sysid
+      !
+      interface GigabitEthernet0/4
+       no shutdown
+       no ip address
+       shutdown
+       negotiation auto
+       no mop enabled
+       no mop sysid
+      !
+      router bgp 65100
+       bgp router-id 102.102.102.102
+       bgp log-neighbor-changes
+       network 102.102.102.102 mask 255.255.255.255
+       neighbor 100.64.2.1 remote-as 65100
+       neighbor 100.64.2.1 next-hop-self all
+      !
+      ip forward-protocol nd
+      ip http server
+      ip http authentication local
+      ip http secure-server
+      !
+      !
+      !
+      !
+      !
+      !
+      control-plane
+      !
+      !
+      !
+      !
+      !
+      !
+      line con 0
+       stopbits 1
+      line vty 0 4
+       login
+      !
+      !
+      !
+      !
+      !
+      !
+      end
+    image_definition: iosv-159-3
+    tags: []
+    interfaces:
+      - id: i0
+        label: Loopback0
+        type: loopback
+      - id: i1
+        slot: 0
+        label: GigabitEthernet0/0
+        type: physical
+      - id: i2
+        slot: 1
+        label: GigabitEthernet0/1
+        type: physical
+      - id: i3
+        slot: 2
+        label: GigabitEthernet0/2
+        type: physical
+      - id: i4
+        slot: 3
+        label: GigabitEthernet0/3
+        type: physical
+  - id: n9
+    label: Site2-Underlay
+    node_definition: iosv
+    x: -650
+    y: 50
+    configuration: |-
+      !
+      ! Last configuration change at 20:28:27 UTC Tue Jun 2 2020
+      !
+      version 16.10
+      service timestamps debug datetime msec
+      service timestamps log datetime msec
+      service call-home
+      platform qfp utilization monitor load 80
+      no platform punt-keepalive disable-kernel-core
+      platform console serial
+      !
+      hostname Site2-Underlay
+      !
+      boot-start-marker
+      boot-end-marker
+      !
+      !
+      !
+      no aaa new-model
+      !
+      login on-success log
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      subscriber templating
+      !
+      !
+      !
+      !
+      !
+      multilink bundle-name authenticated
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      license udi pid CSR1000V sn 9U2QVG8GDPI
+      diagnostic bootup level minimal
+      !
+      spanning-tree extend system-id
+      !
+      !
+      !
+      !
+      redundancy
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      interface GigabitEthernet0/1
+       no shutdown
+       description LINK TO SITE2-EDGE1
+       ip address 192.168.200.6 255.255.255.252
+       ip router isis
+       negotiation auto
+       no mop enabled
+       no mop sysid
+       isis network point-to-point
+      !
+      interface GigabitEthernet0/2
+       no shutdown
+       description LINK TO SITE2-BORDER-CP
+       ip address 192.168.200.9 255.255.255.252
+       ip router isis
+       negotiation auto
+       no mop enabled
+       no mop sysid
+       isis network point-to-point
+      !
+      interface GigabitEthernet0/3
+       no shutdown
+       description LINK TO SITE2-EDGE2
+       ip address 192.168.200.13 255.255.255.252
+       ip router isis
+       negotiation auto
+       no mop enabled
+       no mop sysid
+       isis network point-to-point
+      !
+      interface GigabitEthernet0/4
+       no shutdown
+       no ip address
+       shutdown
+       negotiation auto
+       no mop enabled
+       no mop sysid
+      !
+      router isis
+       net 49.0002.1921.6820.0009.00
+       is-type level-2-only
+       domain-password cisco123
+       metric-style wide
+       log-adjacency-changes
+      !
+      ip forward-protocol nd
+      ip http server
+      ip http authentication local
+      ip http secure-server
+      !
+      !
+      !
+      !
+      !
+      !
+      control-plane
+      !
+      !
+      !
+      !
+      !
+      !
+      line con 0
+       stopbits 1
+      line vty 0 4
+       login
+      !
+      !
+      !
+      !
+      !
+      !
+      end
+    image_definition: iosv-159-3
+    tags: []
+    interfaces:
+      - id: i0
+        label: Loopback0
+        type: loopback
+      - id: i1
+        slot: 0
+        label: GigabitEthernet0/0
+        type: physical
+      - id: i2
+        slot: 1
+        label: GigabitEthernet0/1
+        type: physical
+      - id: i3
+        slot: 2
+        label: GigabitEthernet0/2
+        type: physical
+      - id: i4
+        slot: 3
+        label: GigabitEthernet0/3
+        type: physical
+links:
+  - id: l0
+    i1: i3
+    n1: n2
+    i2: i1
+    n2: n6
+  - id: l1
+    i1: i4
+    n1: n2
+    i2: i2
+    n2: n0
+  - id: l2
+    i1: i2
+    n1: n2
+    i2: i2
+    n2: n1
+  - id: l3
+    i1: i2
+    n1: n6
+    i2: i3
+    n2: n3
+  - id: l4
+    i1: i2
+    n1: n3
+    i2: i2
+    n2: n7
+  - id: l5
+    i1: i3
+    n1: n7
+    i2: i2
+    n2: n8
+  - id: l6
+    i1: i3
+    n1: n8
+    i2: i2
+    n2: n10
+  - id: l7
+    i1: i1
+    n1: n10
+    i2: i3
+    n2: n9
+  - id: l8
+    i1: i2
+    n1: n4
+    i2: i2
+    n2: n9
+  - id: l9
+    i1: i2
+    n1: n5
+    i2: i4
+    n2: n9
+  - id: l10
+    i1: i4
+    n1: n7
+    i2: i0
+    n2: n11
+  - id: l12
+    i1: i0
+    n1: n13
+    i2: i4
+    n2: n1
+  - id: l11
+    i1: i0
+    n1: n12
+    i2: i4
+    n2: n0
+  - id: l13
+    i1: i0
+    n1: n14
+    i2: i4
+    n2: n4
+  - id: l14
+    i1: i0
+    n1: n15
+    i2: i4
+    n2: n5
