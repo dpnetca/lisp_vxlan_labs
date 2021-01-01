@@ -247,7 +247,7 @@ nodes:
       # this is a shell script which will be sourced at boot
       # if you change the hostname then you need to add a
       # /etc/hosts entry as well to make X11 happy
-      hostname Site1-User1
+      hostname Site2-User1
       # like this:
       echo "127.0.0.1   Site2-User2" >>/etc/hosts
       ip addr add 10.99.2.10/24 dev eth0
