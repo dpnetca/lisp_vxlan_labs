@@ -5,7 +5,7 @@ These topology files and configs are part of the LISP/VXLAN Basic Workbook avail
 Here contains the lab topoloies with initial configurations for Cisco Modeling Labs (CML).
 
 ## Disclaimer
-Currently the topology and startup configs for Labs 1-3 in the Basic workbook have been uploaded, but are not yet verified.  Before starting the lab you should verify the configuration against the configurations provided by Tim, and verify interfaces are in the proper state.  If you find any errors please let me know and I will update the configs.
+Currently the topology and startup configs for Labs 1-3 in the Basic workbook, and Labs 6-7 in the Expanded workbook have been uploaded, but are not yet verified.  Before starting the lab you should verify the configuration against the configurations provided by Tim, and verify interfaces are in the proper state.  If you find any errors please let me know and I will update the configs.
 
 ## Environment:
 The following software versions were used to build these topologies
