@@ -3,8 +3,8 @@ lab:
     LISP / VXLAN Basic Workbook - Lab 1
     These topology files and configs are part of the LISP/VXLAN Basic Workbook available on Leanpub, copyright 2020 Tim McConnaughy.
   notes: ''
-  timestamp: 1608654579.9647448
-  title: LSIP VXLAN Basic Workbook - Base Topology Sub IOSv
+  timestamp: 1609526028.2656693
+  title: LSIP VXLAN - Base Topology.yaml
   version: 0.0.4
 nodes:
   - id: n0
@@ -208,8 +208,8 @@ nodes:
       hostname Site1-User1
       # like this:
       echo "127.0.0.1   Site1-User1" >>/etc/hosts
-      ip addr add 10.10.1.20/24 dev eth0
-      ip route add default via 10.10.1.1 dev eth0
+      ip addr add 10.99.1.10/24 dev eth0
+      ip route add default via 10.99.1.1 dev eth0
     image_definition: desktop-3-12-xfce
     tags: []
     interfaces:
@@ -229,8 +229,8 @@ nodes:
       hostname Site1-User2
       # like this:
       echo "127.0.0.1   Site1-User2" >>/etc/hosts
-      ip addr add 10.10.1.10/24 dev eth0
-      ip route add default via 10.10.1.1 dev eth0
+      ip addr add 10.99.1.20/24 dev eth0
+      ip route add default via 10.99.1.1 dev eth0
     image_definition: desktop-3-12-xfce
     tags: []
     interfaces:
@@ -250,8 +250,8 @@ nodes:
       hostname Site1-User1
       # like this:
       echo "127.0.0.1   Site2-User2" >>/etc/hosts
-      ip addr add 10.30.1.10/24 dev eth0
-      ip route add default via 10.30.1.1 dev eth0
+      ip addr add 10.99.2.10/24 dev eth0
+      ip route add default via 10.99.2.1 dev eth0
     image_definition: desktop-3-12-xfce
     tags: []
     interfaces:
@@ -271,8 +271,8 @@ nodes:
       hostname Site2-User2
       # like this:
       echo "127.0.0.1   Site2-User2" >>/etc/hosts
-      ip addr add 10.30.1.20/24 dev eth0
-      ip route add default via 10.30.1.1 dev eth0
+      ip addr add 10.99.2.20/24 dev eth0
+      ip route add default via 10.99.2.1 dev eth0
     image_definition: desktop-3-12-xfce
     tags: []
     interfaces:
@@ -421,26 +421,6 @@ nodes:
         label: GigabitEthernet0/3
         type: physical
 links:
-  - id: l11
-    i1: i0
-    n1: n12
-    i2: i1
-    n2: n0
-  - id: l12
-    i1: i0
-    n1: n13
-    i2: i1
-    n2: n1
-  - id: l13
-    i1: i0
-    n1: n14
-    i2: i1
-    n2: n4
-  - id: l14
-    i1: i0
-    n1: n15
-    i2: i1
-    n2: n5
   - id: l0
     i1: i3
     n1: n2
@@ -496,3 +476,23 @@ links:
     n1: n7
     i2: i0
     n2: n11
+  - id: l11
+    i1: i0
+    n1: n12
+    i2: i4
+    n2: n0
+  - id: l12
+    i1: i0
+    n1: n13
+    i2: i4
+    n2: n1
+  - id: l13
+    i1: i0
+    n1: n14
+    i2: i4
+    n2: n4
+  - id: l14
+    i1: i0
+    n1: n15
+    i2: i4
+    n2: n5
